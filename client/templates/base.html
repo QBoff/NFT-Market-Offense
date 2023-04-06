@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for("static", filename="images/apple-touch-icon.png") }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for("static", filename="images/favicon-32x32.png") }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for("static", filename="images/favicon-16x16.png") }}"> 
+    <link rel="manifest" href="{{ url_for("static", filename="images/site.webmanifest") }}">
+    <link rel="mask-icon" href="{{ url_for("static", filename="images/safari-pinned-tab.svg") }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>{% block title %}NFT маркетплейс{% endblock title %}</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/style.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/bootstrap.min.css") }}">
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh">
+    <script src="{{ url_for("static", filename="js/bootstrap.min.js") }}"></script>
+    {% include "includes/navigation.html" %}
+    {% block content %}
+        <div class="container-fluid m-auto">
+            <h1 class="text-center">
+                Пусто. Чтобы убрать этот текст, унаследуйся от base.html и переопредели блок "content" 😊
+            </h1>
+        </div>
+    {% endblock content %}
+    {% include "includes/footer.html" %}
+</body>
+</html>
