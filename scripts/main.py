@@ -14,7 +14,7 @@ app.secret_key = os.getenv("WEBSITE_SECRET_KEY_AA01")
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("base.html")
+    return render_template("homepage.html")
 
 
 @app.route("/market")

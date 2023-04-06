@@ -1,5 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Hello!</h1>
+<section class="bg-dark text-light p-5 text-center">
+    <div class="container rounded dark">
+        <div class="d-sm-flex justify-content-evenly align-items-center">
+            <div class="d-flex align-items-center">
+                <div class="me-auto p-2">
+                    <h1>Новый способ торговли NFT</h1>
+                    <p class="text-center lead my-4">NFT Market Offence - лучшая площадка для приобретения и продажи NFT
+                    </p>
+                    <button class="btn btn-outline-success">Создать аккаунт</button>
+                </div>
+            </div>
+
+            <img class="img-fluid rounded float-start mx-auto d-block" width="300px" height="500px"
+                src="{{ url_for('static', filename='images/homepage-hero-image.png') }}" alt="Homepage Hero Image">
+        </div>
+    </div>
+
+    <section class="p-5">
+        <div class="container">
+            <div class="row">
+                <p class="h2">Популярные секции</p>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <img src="" alt="Какая-то NFT">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cool NFT</h5>
+                            <p class="card-text">Коллекция NFT c чем-то внутри. Это очень интересно покупать кота в
+                                мешке и думать о чем-то приятном!!!</p>
+                            <a href="" class="btn btn-outline-success">Купить</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <img src="" alt="Какая-то NFT">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cool NFT</h5>
+                            <p class="card-text">Коллекция NFT c чем-то внутри. Это очень интересно покупать кота в
+                                мешке и думать о чем-то приятном!!!</p>
+                            <a href="" class="btn btn-outline-success">Купить</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <img src="" alt="Какая-то NFT">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cool NFT</h5>
+                            <p class="card-text">Коллекция NFT c чем-то внутри. Это очень интересно покупать кота в
+                                мешке и думать о чем-то приятном!!!</p>
+                            <a href="" class="btn btn-outline-success">Купить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</section>
 {% endblock %}
