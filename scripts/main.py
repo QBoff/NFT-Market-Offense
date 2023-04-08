@@ -19,7 +19,7 @@ def home():
 
 @app.route("/market")
 def market():
-    return render_template("base.html")
+    return render_template("marketpage.html")
 
 
 @app.route("/create")
