@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hello Market</h1>
+<div class="bg-dark p-3 text-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <p class="h3">Фильтры</p>
+            </div>
+            <div class="col-md-8">
+                <form class="d-md-flex justify-content-evenly" role="search">
+                    <input style="width: 600px;" class="form-control" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button style="width: 200px;" class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+
+                <div class="list-of-cards p-3">
+                    <h1>Hello/ It's NFT market</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
