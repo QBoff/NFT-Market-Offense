@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
+from cardsInfo import cardsInfoList
 assert load_dotenv(), "Даня, ты забыл .env добавить"
 
 app = Flask(
@@ -19,7 +20,8 @@ def home():
 
 @app.route("/market")
 def market():
-    return render_template("marketpage.html")
+    cil = cardsInfoList
+    return render_template("marketpage.html", cardsInfoList=cardsInfoList)
 
 
 @app.route("/create")
@@ -35,6 +37,11 @@ def login():
 @app.route("/register")
 def register():
     return render_template("register.html")
+
+
+@app.route('/filter')
+def showFilter():
+    return render_template('filter.html')
 
 
 if __name__ == "__main__":
