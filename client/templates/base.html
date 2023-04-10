@@ -15,15 +15,16 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="css/bootstrap.min.css") }}">
 </head>
 <body class="d-flex flex-column" style="min-height: 100vh">
-    <script src="{{ url_for("static", filename="js/bootstrap.min.js") }}"></script>
     {% include "includes/navigation.html" %}
     {% block content %}
-        <div class="container-fluid m-auto">
-            <h1 class="text-center">
-                Пусто. Чтобы убрать этот текст, унаследуйся от base.html и переопредели блок "content" 😊
-            </h1>
-        </div>
+    <div class="container-fluid m-auto">
+        <h1 class="text-center">
+            Пусто. Чтобы убрать этот текст, унаследуйся от base.html и переопредели блок "content" 😊
+        </h1>
+    </div>
     {% endblock content %}
     {% include "includes/footer.html" %}
+    <script src="{{ url_for("static", filename="js/bootstrap.min.js") }}"></script>
+    <script src="{{ url_for('static', filename='js/preview.js') }}"></script>
 </body>
 </html>

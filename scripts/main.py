@@ -26,7 +26,7 @@ def market():
 
 @app.route("/create")
 def nft_creation():
-    return render_template("base.html")
+    return render_template("createnftpage.html")
 
 
 @app.route("/login")
