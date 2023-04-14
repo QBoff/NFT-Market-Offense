@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-themed">
+  <a class="navbar-brand ms-5" href="{{ url_for("home") }}">
+      <img src="{{ url_for("static", filename="images/logo-short.png") }}" height="40" class="d-inline-block align-top" alt="">
+  </a>
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == url_for('home') %}active{% endif %}" aria-current="page" href="{{ url_for("home") }}">Домашняя страница</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == url_for('market') %}active{% endif %}" href="{{ url_for("market") }}">Маркет</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == url_for('nft_creation') %}active{% endif %}" href="{{ url_for("nft_creation") }}">Создать NFT</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+          <a href="{{ url_for("login") }}" class="btn {% if request.path == url_for("login") %}btn-success{% else %}btn-outline-success{% endif %} mx-1">Логин</a>
+          <a href="{{ url_for("register")}}" class="btn {% if request.path == url_for("register") %}btn-success{% else %}btn-outline-success{% endif %} mx-1">Регистрация</a>
+      </form>
+    </div>
+  </div>
+</nav>

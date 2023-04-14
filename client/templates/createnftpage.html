@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="bg-dark text-light p-5">
+    <div class="container text-center">
+        <p class="h3">Создать NFT</p>
+
+        <div class="justify-content-center d-md-flex mt-5">
+            <div class="col-md-3" style="display: grid; place-items: center;">
+                <p class="hint">Здесь будет отображаться ваша NFT</p>
+                <div class="preview-wrapper">
+                    <img id="preview">
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <form action="post">
+                    <div style="display: grid; place-items: center;">
+
+                        <label for="exampleFormControlInput1" class="form-label">Название вашей NFT</label>
+                        <div class="input-group" style="width: 300px;">
+                            <input style="width: 300px" type="text" class="form-control mb-3"
+                                id="exampleFormControlInput1" placeholder="Wojak">
+                        </div>
+
+                        <label for="exampleFormControlInput2">Цена вашей NFT</label>
+                        <div class="input-group mt-2 mb-3" style="width: 300px;">
+                            <input id="exampleFormControlInput2" type="text" class="form-control" placeholder="0.001"
+                                aria-label="Ethereum amount (with dot and four decimal places)">
+                            <span class="input-group-text">ETH</span>
+                        </div>
+
+                        <label for="inputGroupFile04">Выберите файл</label>
+                        <div class="input-group mt-2" style="width: 300px;">
+                            <input type="file" class="form-control" id="inputGroupFile04"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        </div>
+
+                        <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+    padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+body {
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    background-color: #fef9f8;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+
+img {
+    width: 200px;
+    height: 60px;
+    /* margin-top: 10px; */
+    border-radius: 10px;
+}
+
+ul>li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+ul>li>a {
+    text-decoration: none;
+    color: #0d0d0d;
+}
+
+.menu_link {
+    font-size: 20px;
+}
+
+.menu_link:hover {
+    /* border: 3px solid bisque;
+    border-radius: 5px;
+    background-color: bisque;
+    padding: 3px 5px; */
+    color: bisque;
+    transition: 0.4s;
+}
+
+.registration_link {
+    font-size: 15px;
+    border: 3px solid #ef9273;
+    border-radius: 5px;
+    background-color: #ef9273;
+    padding: 3px 5px;
+    color: black;
+    /* background-color: antiquewhite; */
+}
