@@ -2,7 +2,7 @@
 
 {% block content %}
 <main>
-    <div class="box">
+    <div class="box" id="box" method="post">
         <span class="borderLine"></span>
         <form action="">
             <h2>Войти</h2>
@@ -26,4 +26,9 @@
         </form>
     </div>
 </main>
+{% endblock %}
+
+{% block JSConnecting %}
+<script src="{{ url_for('static', filename='js/setheight.js') }}"></script>
+<script src="{{ url_for('static', filename='js/checkmetamask.js') }}"></script>
 {% endblock %}

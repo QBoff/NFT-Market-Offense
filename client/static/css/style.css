@@ -17,14 +17,14 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 85vh;
+    min-height: 100vh;
     background: #23242a;
 }
 
 .box {
     position: relative;
-    width: 400px;
-    height: 420px;
+    width: 380px;
+    /* height: 500px; */
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
@@ -133,7 +133,7 @@ main {
     outline: none;
     border: none;
     box-shadow: none;
-    color: #23232a;
+    color: #8f8f8f;
     font-size: 1em;
     letter-spacing: 0.05em;
     transition: 0.5s;
@@ -155,7 +155,6 @@ main {
     color: #fff;
     font-size: 0.75em;
     transform: translateY(-34px);
-
 }
 
 .box form .inputBox i {
@@ -174,6 +173,16 @@ main {
 .box form .inputBox input:valid~i,
 .box form .inputBox input:focus~i {
     height: 44px;
+}
+
+.box form .special i {
+    height: 44px;
+}
+
+.box form .special span {
+    color: #fff;
+    font-size: 0.75em;
+    transform: translateY(-34px);
 }
 
 .box form .links {
@@ -197,6 +206,7 @@ main {
 .box form input[type="submit"] {
     border: none;
     outline: none;
+    margin-top: 30px;
     padding: 9px 25px;
     background-color: #fff;
     cursor: pointer;

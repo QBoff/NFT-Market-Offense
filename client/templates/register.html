@@ -1,5 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <img src="{{ url_for("static", filename="images/authorization-bg.jpg") }}" alt="" class="img-fluid" width="100%" height="100%">
+<main>
+    <div class="box" id="box">
+        <span class="borderLine"></span>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <h2>Регистрация</h2>
+            <div class="inputBox">
+                <input type="text" required="required">
+                <span>Псевдоним пользователя</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="text" required="required">
+                <span>Почта</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" required="required">
+                <span>Пароль</span>
+                <i></i>
+            </div>
+
+            <div class="walletInfo inputBox special">
+                <input class="wallet" type="text" value="" readonly="readonly">
+                <span>Номер кошелька</span>
+                <i></i>
+            </div>
+    
+            <div class="links">
+                <a href="#">Забыли пароль</a>
+                <a href="#">Зарегистрироваться</a>
+            </div>
+    
+            <input type="submit" value="Войти">
+        </form>
+    </div>
+</main>
+{% endblock %}
+
+{% block JSConnecting %}
+<script src="{{ url_for('static', filename='js/setheight.js') }}"></script>
+<script src="{{ url_for('static', filename='js/checkmetamask.js') }}"></script>
 {% endblock %}

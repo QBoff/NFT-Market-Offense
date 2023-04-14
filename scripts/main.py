@@ -9,6 +9,7 @@ from flask import Flask, render_template
 from cardsInfo import cardsInfoList
 from models import db_session
 from models.users import User
+from forms import RegisterForm
 assert load_dotenv(), "Даня, ты забыл .env добавить"
 
 app = Flask(
@@ -41,9 +42,14 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print(form.email)
+        print(form.login)
+    
+    return render_template("register.html", form=form)
 
 
 @app.route('/filter')
