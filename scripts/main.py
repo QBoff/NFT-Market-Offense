@@ -1,7 +1,7 @@
 import os
 import sys
 
-# магическое заклинание (без него не работаит)
+# магическое заклинание (без него не работает)
 sys.path.append(os.getcwd())
 
 from dotenv import load_dotenv
@@ -38,7 +38,7 @@ def nft_creation():
 
 @app.route("/login")
 def login():
-    return render_template("base.html")
+    return render_template("login.html")
 
 
 @app.route("/register")

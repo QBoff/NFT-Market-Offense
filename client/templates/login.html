@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="box">
+        <span class="borderLine"></span>
+        <form action="">
+            <h2>Войти</h2>
+            <div class="inputBox">
+                <input type="text" required="required">
+                <span>Почта</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" required="required">
+                <span>Пароль</span>
+                <i></i>
+            </div>
+    
+            <div class="links">
+                <a href="#">Забыли пароль</a>
+                <a href="#">Зарегистрироваться</a>
+            </div>
+    
+            <input type="submit" value="Войти">
+        </form>
+    </div>
+</main>
+{% endblock %}
