@@ -154,3 +154,4 @@ node_modules/scheduler/umd/scheduler-unstable_mock.production.min.js
 node_modules/scheduler/umd/scheduler.development.js
 node_modules/scheduler/umd/scheduler.production.min.js
 node_modules/scheduler/umd/scheduler.profiling.min.js
+*.db
