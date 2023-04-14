@@ -1,6 +1,13 @@
 import os
+import sys
+
+# магическое заклинание (без него не работаит)
+sys.path.append(os.getcwd())
+
 from dotenv import load_dotenv
 from flask import Flask
+from models import db_session
+from models.users import User
 assert load_dotenv(), "Даня, ты забыл .env добавить"
 
 app = Flask(
@@ -16,4 +23,7 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    db_session.global_init(os.path.join("db", "db.db"))
+    session = db_session.create_session()
+    print(session.query(User).all())
+    # app.run(host="127.0.0.1", port=5000, debug=True)
