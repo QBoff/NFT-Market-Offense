@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@metamask/onboarding": "^1.0.1",
     "react-router-dom": "^6.10.0"
   }
 }

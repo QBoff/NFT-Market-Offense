@@ -2,16 +2,10 @@
 
 {% block content %}
 <main>
-    <div class="box" id="box">
+    <div class="box" id="box" method="post">
         <span class="borderLine"></span>
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-            <h2>Регистрация</h2>
-            <div class="inputBox">
-                <input type="text" required="required">
-                <span>Псевдоним пользователя</span>
-                <i></i>
-            </div>
+        <form action="">
+            <h2>Войти</h2>
             <div class="inputBox">
                 <input type="text" required="required">
                 <span>Почта</span>
@@ -20,12 +14,6 @@
             <div class="inputBox">
                 <input type="password" required="required">
                 <span>Пароль</span>
-                <i></i>
-            </div>
-
-            <div class="walletInfo inputBox special">
-                <input class="wallet" type="text" value="" readonly="readonly">
-                <span>Номер кошелька</span>
                 <i></i>
             </div>
     
