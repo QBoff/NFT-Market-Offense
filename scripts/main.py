@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, redirect
 from cardsInfo import cardsInfoList
 import datetime
+from sqlalchemy import or_
 from flask_login import LoginManager, login_user, login_required, logout_user
 from forms import RegisterForm, LoginForm
 from models import db_session
@@ -21,7 +22,7 @@ app = Flask(
     template_folder=os.path.join("client", "templates")
 )
 app.secret_key = os.getenv("WEBSITE_SECRET_KEY_AA01")
-app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(days=365)
+app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(hours=1)
 
 
 login_manager = LoginManager()
@@ -57,10 +58,10 @@ def login():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
+            login_user(user)
             return redirect("/")
 
-        return render_template("login.html", form=form, message="Неправильный логин или пароль")
+        return render_template("login.html", form=form, error="Неправильный логин или пароль")
 
     return render_template("login.html", form=form)
 
@@ -69,16 +70,28 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if form.password.data != form.password_repeat.data:
-            return render_template("register.html", form=form, message="Пароли не совпадают")
 
         db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template("register.html", form=form, message="Такой пользователь уже есть")
+        entry = db_sess.query(User).filter(
+            or_(
+                User.email == form.email.data,
+                User.login == form.login.data
+            )
+        ).first()
+
+        if entry:
+            error = "Такой логин уже есть"
+            if entry.email == form.email.data:
+                error = "Такая почта уже зарегистрирована"
+
+            return render_template("register.html",
+                                   error=error,
+                                   form=form)
 
         user = User(
             login=form.login.data,
-            email=form.email.data
+            email=form.email.data,
+            crypto_wallet=form.wallet.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)

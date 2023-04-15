@@ -2,17 +2,18 @@
 
 {% block content %}
 <main>
-    <div class="box" id="box" method="post">
+    <div class="box" id="box">
         <span class="borderLine"></span>
-        <form action="">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
             <h2>Войти</h2>
             <div class="inputBox">
-                <input type="text" required="required">
+                {{ form.email(type="email") }}
                 <span>Почта</span>
                 <i></i>
             </div>
             <div class="inputBox">
-                <input type="password" required="required">
+                {{ form.password(type="password") }}
                 <span>Пароль</span>
                 <i></i>
             </div>
@@ -22,6 +23,8 @@
                 <a href="#">Зарегистрироваться</a>
             </div>
     
+            <p class="text-danger">{{ error }}</p>
+
             <input type="submit" value="Войти">
         </form>
     </div>

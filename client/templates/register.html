@@ -8,23 +8,23 @@
             {{ form.hidden_tag() }}
             <h2>Регистрация</h2>
             <div class="inputBox">
-                <input type="text" required="required">
+                {{ form.login }}
                 <span>Псевдоним пользователя</span>
                 <i></i>
             </div>
             <div class="inputBox">
-                <input type="text" required="required">
+                {{ form.email(type="email") }}
                 <span>Почта</span>
                 <i></i>
             </div>
             <div class="inputBox">
-                <input type="password" required="required">
+                {{ form.password(type="password") }}
                 <span>Пароль</span>
                 <i></i>
             </div>
 
             <div class="walletInfo inputBox special">
-                <input class="wallet" type="text" value="" readonly="readonly">
+                {{ form.wallet }}
                 <span>Номер кошелька</span>
                 <i></i>
             </div>
@@ -34,6 +34,8 @@
                 <a href="#">Зарегистрироваться</a>
             </div>
     
+            <p class="text-danger">{{ error }}</p>
+
             <input type="submit" value="Войти">
         </form>
     </div>
