@@ -102,6 +102,11 @@ def register():
     return render_template("register.html", form=form)
 
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+
 @app.route('/logout')
 @login_required
 def logout():

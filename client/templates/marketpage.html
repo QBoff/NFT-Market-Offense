@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="bg-dark p-3 text-light">
+<div class="bg-dark p-5 text-light">
     <div class="container-fluid">
         <div class="row">
             <div style="background-color: #00393D; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;" class="col-md-2">
@@ -11,13 +11,13 @@
                 <div class="row text-center mt-3">
                     <p class="h5">Выберите цену</p>
                 </div>
-                <div class="row text-center">
+                <div class="row text-center text-light">
                     <div class="col m-auto">
                         <form action="post" class="mt-1">
                             <div class="d-md-flex justify-content-center">
-                                <div style="width: 100px; margin-right: 3px;">от<input style="background-color: #2b2e31; border-color: #2b2e31; border: none; border-radius: 5px; width: 100px;" type="text" class="min-cost-input" placeholder="min"></div>
+                                <div style="width: 100px; margin-right: 3px;">от<input style="background-color: #2b2e31; border-color: #2b2e31; border: none; border-radius: 5px; width: 100px; color: #fff;" type="text" class="min-cost-input" placeholder="min"></div>
                                 <div>и<br>—</div>
-                                <div style="width: 100px; margin-left: 3px;">до<input style="background-color: #2b2e31; border-color: #2b2e31; border: none; border-radius: 5px; width: 100px;" type="text" class="max-cost-input-" placeholder="max"></div>
+                                <div style="width: 100px; margin-left: 3px;">до<input style="background-color: #2b2e31; border-color: #2b2e31; border: none; border-radius: 5px; width: 100px; color: #fff;" type="text" class="max-cost-input-" placeholder="max"></div>
                             </div>
         
                             <button class="btn btn-success mt-4">Применить</button>
