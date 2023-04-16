@@ -20,5 +20,10 @@ class NFT(SqlAlchemyBase):
                                      nullable=False,
                                      default=datetime.now())
 
-    owner = sqlalchemy.Column(sqlalchemy.ForeignKey("users.id"),
+    owner = sqlalchemy.Column(sqlalchemy.Integer,
+                              sqlalchemy.ForeignKey("users.id"),
                               nullable=False)
+
+    on_sale = sqlalchemy.Column(sqlalchemy.Boolean,
+                                default=False,
+                                nullable=False)

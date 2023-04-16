@@ -1,6 +1,8 @@
 import datetime
 import sqlalchemy
+from sqlalchemy.orm import relationship
 from models.db_session import SqlAlchemyBase
+from models.transactions import Transaction
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -30,6 +32,26 @@ class User(SqlAlchemyBase, UserMixin):
 
     crypto_wallet = sqlalchemy.Column(sqlalchemy.VARCHAR(75),
                                       nullable=False)
+
+    nfts = relationship("NFT", backref="owned_nfts")
+
+    # // Не протестировано. Может и не работать собсна =)
+    sent_transactions = relationship("Transaction",
+                                     backref="sent_transactions",
+                                     order_by=sqlalchemy.desc("Transaction.date"),
+                                     foreign_keys=[Transaction.sender],
+                                     viewonly=True)
+
+    received_transactions = relationship("Transaction",
+                                         backref="received_transactions",
+                                         order_by=sqlalchemy.desc("Transaction.date"),
+                                         foreign_keys=[Transaction.receiver],
+                                         viewonly=True)
+
+    all_transactions = relationship("Transaction",
+                                    primaryjoin="or_(User.id==Transaction.sender, User.id==Transaction.receiver)", 
+                                    order_by=sqlalchemy.desc("Transaction.date"),
+                                    viewonly=True)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

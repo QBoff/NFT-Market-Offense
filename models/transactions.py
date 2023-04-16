@@ -18,8 +18,10 @@ class Transaction(SqlAlchemyBase):
     transferred = sqlalchemy.Column(sqlalchemy.Float,
                                     nullable=False)
 
-    sender = sqlalchemy.Column(sqlalchemy.ForeignKey("users.id"),
+    sender = sqlalchemy.Column(sqlalchemy.Integer,
+                               sqlalchemy.ForeignKey("users.id"),
                                nullable=False)
 
-    receiver = sqlalchemy.Column(sqlalchemy.ForeignKey("users.id"),
+    receiver = sqlalchemy.Column(sqlalchemy.Integer,
+                                 sqlalchemy.ForeignKey("users.id"),
                                  nullable=False)

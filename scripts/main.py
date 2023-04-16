@@ -116,6 +116,8 @@ def showFilter():
 
 if __name__ == "__main__":
     db_session.global_init(os.path.join("db", "db.db"))
-    session = db_session.create_session()
-    print(session.query(User).all())
+    # session = db_session.create_session()
+    # user = session.query(User).first()
+    # if user:
+    #     print(user.nfts)
     app.run(host="127.0.0.1", port=5000, debug=True)
