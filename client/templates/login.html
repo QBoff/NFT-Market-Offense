@@ -23,7 +23,9 @@
                 <a href="#">Зарегистрироваться</a>
             </div>
     
-            <p class="text-danger">{{ error }}</p>
+            {% if error %}
+                <p class="text-danger">{{ error }}</p>
+            {% endif %}
 
             <input type="submit" value="Войти">
         </form>
