@@ -5,12 +5,12 @@ import sys
 sys.path.append(os.getcwd())
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 from cardsInfo import cardsInfoList
 import datetime
 from sqlalchemy import or_
 from flask_login import LoginManager, login_user, login_required, logout_user
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, NFTCreationForm
 from models import db_session
 from models.users import User
 assert load_dotenv(), "Даня, ты забыл .env добавить"
@@ -45,9 +45,22 @@ def market():
     return render_template("marketpage.html", cardsInfoList=cardsInfoList)
 
 
-@app.route("/create")
+@app.route("/create", methods=["GET", "POST"])
+@login_required
 def nft_creation():
-    return render_template("createnftpage.html")
+    form = NFTCreationForm()
+    if form.validate_on_submit():
+        print("Успешно")
+        return redirect(url_for("nft_creation"))
+        return render_template("createnftpage.html", form=form)
+
+    most_recent_error = None
+    if form.errors:
+        most_recent_error = tuple(form.errors.values())[0][-1]
+
+    return render_template("createnftpage.html",
+                           error=most_recent_error,
+                           form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])

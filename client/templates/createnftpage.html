@@ -16,28 +16,37 @@
 
             <div class="col-md-5">
                 <form action="", method="post">
+                    {{ form.hidden_tag() }}
                     <div style="display: grid; place-items: center;">
-
+                            
                         <label for="exampleFormControlInput1" class="form-label">Название вашей NFT</label>
                         <div class="input-group" style="width: 300px;">
-                            <input style="width: 300px" type="text" class="form-control mb-3"
-                                id="exampleFormControlInput1" placeholder="Wojak">
+                            {{ form.name(class="form-control mb-3", id="exampleFormControlInput1", style="width: 300px", placeholder="Wojak") }}
+                            <!--<input style="width: 300px" type="text" class="form-control mb-3"
+                                id="exampleFormControlInput1" placeholder="Wojak">-->
                         </div>
 
                         <label for="exampleFormControlInput2">Цена вашей NFT</label>
                         <div class="input-group mt-2 mb-3" style="width: 300px;">
-                            <input id="exampleFormControlInput2" type="text" class="form-control" placeholder="0.001"
-                                aria-label="Ethereum amount (with dot and four decimal places)">
+                            {{ form.cost(class="form-control", id="exampleFormControlInput2", placeholder="0.001") }}
+                            <!--<input id="exampleFormControlInput2" type="text" class="form-control" placeholder="0.001"
+                                aria-label="Ethereum amount (with dot and four decimal places)"> -->
                             <span class="input-group-text">ETH</span>
                         </div>
 
                         <label for="inputGroupFile04">Выберите файл</label>
                         <div class="input-group mt-2" style="width: 300px;">
-                            <input type="file" class="form-control" id="inputGroupFile04"
-                                aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            {{ form.image(class="form-control", id="inputGroupFile04") }}
+                            <!--<input type="file" class="form-control" id="inputGroupFile04"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload"> -->
                         </div>
 
-                        <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button>
+                        {% if error %}
+                            <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
+                        {% endif %}
+
+                        {{ form.submit(class="btn btn-success mt-5") }}
+                        <!-- <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button> -->
                     </div>
                 </form>
 

@@ -18,6 +18,7 @@ MIN_PASSWORD_LENGTH = 8
 NEGATIVE_NUM_ERROR = "Цена не может быть отрицательной или состоять из букв"
 NFT_NAME_MISSING = "Необходимо указать название NFT"
 NFT_COST_MISSING = "Не указана цена NFT"
+NFT_FILE_MISSING = "Файл NFT не опубликован"
 NFT_LEN_ERROR = "Длина названия превышена"
 EMAIL_MISSING = "Почта не заполнена"
 EMAIL_INVALID = "Неверный формат почты"
@@ -95,4 +96,8 @@ class NFTCreationForm(FlaskForm):
         )
     ])
 
-    image = FileField("NFT", validators=[InputRequired()])
+    image = FileField("NFT", validators=[InputRequired(NFT_FILE_MISSING)])
+    submit = SubmitField("Выставить на продажу")
+
+
+__all__ = ["LoginForm", "NFTCreationForm", "RegisterForm"]
