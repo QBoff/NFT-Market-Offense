@@ -8,37 +8,35 @@
             {{ form.hidden_tag() }}
             <h2>Регистрация</h2>
             <div class="inputBox">
-                {{ form.login }}
+                {{ form.login(placeholder=" ") }}
                 <span>Псевдоним пользователя</span>
                 <i></i>
             </div>
             <div class="inputBox">
-                {{ form.email(type="email") }}
+                {{ form.email(type="email", placeholder=" ") }}
                 <span>Почта</span>
                 <i></i>
             </div>
             <div class="inputBox">
-                {{ form.password(type="password") }}
+                {{ form.password(type="password", placeholder=" ") }}
                 <span>Пароль</span>
                 <i></i>
             </div>
 
             <div class="walletInfo inputBox special">
-                {{ form.wallet }}
+                {{ form.wallet(placeholder=" ", class="wallet") }}
                 <span>Номер кошелька</span>
                 <i></i>
             </div>
-    
-            <div class="links">
-                <a href="#">Забыли пароль</a>
-                <a href="#">Зарегистрироваться</a>
-            </div>
             
-            {% if error %}
-                <p class="text-danger">{{ error }}</p>
-            {% endif %}
+            <p class="text-danger">{{ error }}</p>
 
-            <input type="submit" value="Войти">
+            <div class="inputBox rememberBox">
+                <input type="checkbox" checked id="rememberMe" style="width: min-content; margin-bottom: 10px; color: #fff;">
+                <label for="rememberMe">Запомнить меня</label>
+            </div>
+
+            <input type="submit" value="Зарегистрироваться">
         </form>
     </div>
 </main>

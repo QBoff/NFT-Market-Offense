@@ -127,6 +127,11 @@ def register():
     return render_template("register.html", form=form, error=most_recent_error)
 
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+
 @app.route('/logout')
 @login_required
 def logout():
