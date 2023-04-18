@@ -4,15 +4,18 @@ import sys
 # магическое заклинание (без него не работает)
 sys.path.append(os.getcwd())
 
+import hashlib
+from Crypto.Cipher import AES
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for
 from cardsInfo import cardsInfoList
 import datetime
 from sqlalchemy import or_
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import RegisterForm, LoginForm, NFTCreationForm
 from models import db_session
 from models.users import User
+from models.nfts import NFT
 assert load_dotenv(), "Даня, ты забыл .env добавить"
 
 app = Flask(
@@ -22,7 +25,7 @@ app = Flask(
 )
 app.secret_key = os.getenv("WEBSITE_SECRET_KEY_AA01")
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(hours=1)
-
+enc_key = hashlib.sha256(app.secret_key.encode()).digest()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -50,9 +53,23 @@ def market():
 def nft_creation():
     form = NFTCreationForm()
     if form.validate_on_submit():
-        print("Успешно")
+        file = form.image.data
+        cipher = AES.new(enc_key, AES.MODE_EAX)
+        ciphertext, tag = cipher.encrypt_and_digest(file.read())
+
+        newNFT = NFT(
+            name=form.name.data,
+            cost=form.cost.data,
+            owner=current_user.id,
+            image=ciphertext,
+            token=tag
+        )
+
+        db = db_session.create_session()
+        db.add(newNFT)
+        db.commit()
+
         return redirect(url_for("nft_creation"))
-        return render_template("createnftpage.html", form=form)
 
     most_recent_error = None
     if form.errors:
