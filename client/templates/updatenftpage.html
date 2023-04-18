@@ -4,18 +4,18 @@
 
 <section class="bg-dark text-light p-5 h-100">
     <div class="container text-center">
-        <p class="h3">Создать NFT</p>
+        <p class="h3">Редактировать NFT</p>
 
         <div class="justify-content-center d-md-flex mt-5">
             <div class="col-md-3" style="display: grid; place-items: center;">
-                <p class="hint">Здесь будет отображаться ваша NFT</p>
-                <div class="preview-wrapper">
-                    <img id="preview">
+                <p class="hint">{{ hint }}</p>
+                <div class="preview-wrapper d-flex mb-auto">
+                    <img id="preview" src="data:image/png;base64, {{ image }}" width="100%" height="100%">
                 </div>
             </div>
 
             <div class="col-md-5">
-                <form action="" , method="POST" , enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <div style="display: grid; place-items: center;">
 
@@ -36,29 +36,28 @@
 
                         <div class="mb-3" style="width: 300px;">
                             <label for="exampleFormControlTextarea1" class="form-label">Описание NFT</label>
+
                             {{ form.description(class="form-control", id="exampleFormControlTextarea1", rows="3") }}
                             <!-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> -->
                         </div>
 
-                        <label for="inputGroupFile04">Выберите файл</label>
-                        <div class="input-group mt-2" style="width: 300px;">
-                            {{ form.image(class="form-control", id="inputGroupFile04") }}
-                            <!--<input type="file" class="form-control" id="inputGroupFile04"
-                                aria-describedby="inputGroupFileAddon04" aria-label="Upload"> -->
-                        </div>
-
                         <div style="width: 300px; text-align: left;" class="mt-3">
-                            <input class="form-check-input move-left" type="checkbox" value="" id="flexCheckChecked" checked>
+                            {{ form.is_selling(class="form-check-input move-left", id="flexCheckChecked") }}
+                            <!-- <input class="form-check-input move-left" type="checkbox" value="" id="flexCheckChecked" checked> -->
                             <label class="form-check-label" for="flexCheckChecked">
                                 Выставить на продажу
                             </label>
                         </div>
 
                         {% if error %}
-                        <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
+                            <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
                         {% endif %}
 
-                        {{ form.submit(class="btn btn-success mt-4") }}
+                        {% with msg = get_flashed_messages() %}
+                            <p class="text-success mt-2 h3" style="width: 300px">{{ msg[0] }}</p>
+                        {% endwith %}
+
+                        {{ form.submit(class="btn btn-success mt-4", type="submit") }}
                         <!-- <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button> -->
                     </div>
                 </form>

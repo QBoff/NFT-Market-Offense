@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main>
-    <div class="box" id="box">
+<div class="d-flex bg-dark h-100">
+    <div class="box mx-auto my-auto" id="box">
         <span class="borderLine"></span>
         <form action="" method="post">
             {{ form.hidden_tag() }}
@@ -31,7 +31,7 @@
             <input type="submit" value="Войти">
         </form>
     </div>
-</main>
+</div>
 {% endblock %}
 
 {% block JSConnecting %}
