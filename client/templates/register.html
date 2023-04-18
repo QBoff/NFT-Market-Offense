@@ -29,7 +29,9 @@
                 <i></i>
             </div>
             
-            <p class="text-danger">{{ error }}</p>
+            {% if error %}
+                <p class="text-danger">{{ error }}</p>
+            {% endif %}
 
             <div class="inputBox rememberBox">
                 <input type="checkbox" checked id="rememberMe" style="width: min-content; margin-bottom: 10px; color: #fff;">

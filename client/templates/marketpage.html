@@ -34,9 +34,25 @@
 
                 <div class="list-of-cards p-3">
 
-                    {% for cardInfo in cardsInfoList %}
-                    <div class="row mt-5">
-                        {% for info in cardInfo %}
+                    {% for nftentry in entries %}
+                    <!--
+                        nftentry.name -> Имя NFT
+                        nftentry.description -> Описание NFT
+                        nftentry.cost -> Цена NFT
+                        nftentry.image -> Считай что картинка.
+                                          Пока используй что нибудь другое в качестве картинки
+                                          Я сам если что эту штуку поставлю
+                        nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
+                        nftentry.on_sale -> На продаже ли (1 или 0)
+                    -->
+
+                    <!--
+                        Переменные цикла:
+                        https://wintercms.com/docs/markup/tag-for
+                    -->
+
+                    <!-- <div class="row mt-5">
+                        {% for info in nftentry %}
                         <div class="col-md">
                             <div class="card bg-dark text-light">
                                 <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
@@ -56,7 +72,7 @@
                             </div>
                         </div>
                         {% endfor %}
-                    </div>
+                    </div> -->
                     {% endfor %}
                 </div>
 
