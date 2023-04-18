@@ -14,9 +14,11 @@
         <li class="nav-item">
           <a class="nav-link {% if request.path == url_for('market') %}active{% endif %}" href="{{ url_for("market") }}">Маркет</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.path == url_for('nft_creation') %}active{% endif %}" href="{{ url_for("nft_creation") }}">Создать NFT</a>
-        </li>
+        {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == url_for('nft_creation') %}active{% endif %}" href="{{ url_for("nft_creation") }}">Создать NFT</a>
+          </li>
+        {% endif %}  
       </ul>
       {% if current_user.is_authenticated %}
         <a class="navbar-brand" href="/logout">{{ current_user.login }}</a>

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-dark text-light user-section">
+    <div class="container-fluid">
+        <div class="row mt-5 align-items-top">
+            <div style="background-color: #00393D; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;"
+                class="col-md-3">
+                <div class="row text-center">
+                    <p class="h3">Username</p>
+                </div>
+                <div class="row text-center mt-3">
+                    <p class="h5">Some info about him</p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="list-of-cards p-3">
+
+                    <form class="d-md-flex justify-content-evenly align-items-center" method="post">
+
+                        <input type="radio" checked class="btn-check" name="options" id="ForSale" autocomplete="on">
+                        <label class="btn btn-light" for="ForSale">Для продажи</label>
+                        <input type="radio" class="btn-check" name="options" id="ForSelf" autocomplete="off">
+                        <label class="btn btn-light" for="ForSelf">Для себя</label>
+
+                    </form>
+
+                    {% for nft in userNFTs %}
+                    <div class="row mt-5">
+                        {% for info in nft %}
+                        <div class="col-md">
+                            <div class="card bg-dark text-light">
+                                <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
+                                    height="500px" src="{{ url_for('static', filename=info['path']) }}"
+                                    alt="Какая-то NFT">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ info['cardTitle'] }}</h5>
+                                    <p class="card-text">{{ info['cardText'] }}</p>
+                                    <div
+                                        class="sell-section card-footer d-md-flex justify-content-between align-items-center">
+                                        <div class="cost text-center">
+                                            <p>Цена</p>
+                                            <p class="card-link"> {{info['cardCost']}} ETH </p>
+                                        </div>
+                                        <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
