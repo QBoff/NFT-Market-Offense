@@ -3,8 +3,8 @@ from validators import (EmailExistsValidator, LoginExistsValidator,
                         LoginTemplateValidator, PasswordTemplateValidator,
                         UnicodeValidator)
 from wtforms import (EmailField, FileField, FloatField, PasswordField,
-                     StringField, SubmitField)
-from wtforms.validators import Email, InputRequired, Length, NumberRange
+                     StringField, SubmitField, BooleanField, TextAreaField)
+from wtforms.validators import Email, InputRequired, Length, NumberRange, DataRequired
 
 from models.nfts import NFT
 from models.users import User
@@ -96,7 +96,13 @@ class NFTCreationForm(FlaskForm):
         )
     ])
 
-    image = FileField("NFT", validators=[InputRequired(NFT_FILE_MISSING)])
+    description = TextAreaField("Описание", validators=[
+        InputRequired("Вы забыли описание"),
+        Length(max=300)
+    ])
+
+    is_selling = BooleanField("Выставить на продажу")
+    image = FileField("NFT", validators=[DataRequired(NFT_FILE_MISSING)])
     submit = SubmitField("Выставить на продажу")
 
 
