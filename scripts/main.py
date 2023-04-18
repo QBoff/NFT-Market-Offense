@@ -64,6 +64,8 @@ def nft_creation():
             name=form.name.data,
             cost=form.cost.data,
             owner=current_user.id,
+            description=form.description.data,
+            on_sale=form.is_selling.data,
             image=image
         )
 
@@ -181,13 +183,12 @@ def nft_edit(nft_id):
     form.is_selling.data = nft.on_sale
 
     if nft is None:
-        return 404
+        return abort(404)
 
     if nft.owner != current_user.id and current_user.id != 1:
-        return 401
+        return abort(401)
 
     error = get_recent_error(form)
-    print(error)
     return render_template("updatenftpage.html",
                            nft=nft, form=form,
                            image=decrypt_image(nft.image),

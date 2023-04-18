@@ -36,7 +36,8 @@
 
                         <div class="mb-3" style="width: 300px;">
                             <label for="exampleFormControlTextarea1" class="form-label">Описание NFT</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            {{ form.description(class="form-control", id="exampleFormControlTextarea1", rows="3") }}
+                            <!-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> -->
                         </div>
 
                         <label for="inputGroupFile04">Выберите файл</label>
