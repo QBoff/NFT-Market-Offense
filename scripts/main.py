@@ -87,45 +87,49 @@ def login():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
-        if user.check_password(form.password.data):
+        if user and user.check_password(form.password.data):
             login_user(user)
             return redirect("/")
 
-        return render_template("login.html",
-                               error="Неправильный пароль",
-                               form=form)
+        return render_template("login.html", form=form, error="Неправильный логин или пароль")
 
-    most_recent_error = None
-    if form.errors:
-        most_recent_error = tuple(form.errors.values())[0][0]
-
-    return render_template("login.html",
-                           error=most_recent_error,
-                           form=form)
+    return render_template("login.html", form=form)
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+
         db_sess = db_session.create_session()
+        entry = db_sess.query(User).filter(
+            or_(
+                User.email == form.email.data,
+                User.login == form.login.data
+            )
+        ).first()
+
+        if entry:
+            error = "Такой логин уже есть"
+            if entry.email == form.email.data:
+                error = "Такая почта уже зарегистрирована"
+
+            return render_template("register.html",
+                                   error=error,
+                                   form=form)
 
         user = User(
             login=form.login.data,
             email=form.email.data,
             crypto_wallet=form.wallet.data
         )
-
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         login_user(user)
         return redirect("/")
 
-    most_recent_error = None
-    if form.errors:
-        most_recent_error = tuple(form.errors.values())[0][0]
-    return render_template("register.html", form=form, error=most_recent_error)
+    return render_template("register.html", form=form)
 
 
 @app.route('/logout')

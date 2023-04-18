@@ -34,10 +34,10 @@
 
                 <div class="list-of-cards p-3">
 
-                    {% for nft, image in data %}
+                    <!-- {% for nft, image in data %}
                         {{nft.name}}
                         <img src="data:image/png;base64, {{ image }}" alt="fuck">
-                    {% endfor %}
+                    {% endfor %} -->
             
                     <!--
                         nftentry.name -> Имя NFT
@@ -55,28 +55,31 @@
                         https://wintercms.com/docs/markup/tag-for
                     -->
 
-                    <!-- <div class="row mt-5">
-                        {% for info in nftentry %}
-                        <div class="col-md">
-                            <div class="card bg-dark text-light">
-                                <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
-                                    height="500px" src="{{ url_for('static', filename=info['path']) }}"
-                                    alt="Какая-то NFT">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">{{ info['cardTitle'] }}</h5>
-                                    <p class="card-text">{{ info['cardText'] }}</p>
-                                    <div class="sell-section card-footer d-md-flex justify-content-between align-items-center">
-                                        <div class="cost text-center">
-                                            <p>Цена</p>
-                                            <p class="card-link"> {{info['cardCost']}} ETH </p>
-                                        </div>
-                                        <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                    <div class="row mt-5">
+                        {% for info in nfts %}
+                            <div class="col-md mb-3" style="width: 300px; height: 500px">
+                                <div class="card bg-dark text-light">
+                                    <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
+                                        height="340px" src="{{ url_for('static', filename=info.image) }}"
+                                        alt="Какая-то NFT">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ info.name }}</h5>
+                                        <p class="card-text">{{ info.description }}</p>
+
+                                        {% if info.on_sale %}
+                                            <div class="sell-section card-footer d-md-flex justify-content-between align-items-center">
+                                                <div class="cost text-center">
+                                                    <p>Цена</p>
+                                                    <p class="card-link"> {{info.cost}} ETH </p>
+                                                </div>
+                                                <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
-                    </div> -->
+                    </div>
                 </div>
 
             </div>
