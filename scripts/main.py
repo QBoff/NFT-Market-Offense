@@ -61,13 +61,12 @@ def nft_creation():
         file = form.image.data
         image = encrypt_image(file.read())
 
-        print(form.is_selling.data)
         newNFT = NFT(
             name=form.name.data,
             cost=form.cost.data,
             owner=current_user.id,
             description=form.description.data,
-            on_sale=form.is_selling.data == 1,
+            on_sale=form.is_selling.data,
             image=image
         )
 
@@ -81,6 +80,12 @@ def nft_creation():
     return render_template("createnftpage.html",
                            error=error,
                            form=form, hint="Здесь будет отображаться ваша NFT")
+
+
+@app.route("/buy/<int:nft_id>")
+@login_required
+def nft_buy(nft_id):
+    return f"page for {nft_id}"
 
 
 @app.route("/login", methods=["GET", "POST"])

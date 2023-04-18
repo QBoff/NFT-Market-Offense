@@ -68,7 +68,7 @@
                                                     <p>Цена</p>
                                                     <p class="card-link"> {{nft.cost}} ETH </p>
                                                 </div>
-                                                <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                                                <a href="{{ url_for("nft_buy", nft_id=nft.id) }}" class="btn btn-outline-success card-link">Купить</a>
                                             </div>
                                         {% endif %}
                                     </div>
