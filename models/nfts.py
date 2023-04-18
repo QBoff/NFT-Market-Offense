@@ -33,9 +33,6 @@ class NFT(SqlAlchemyBase):
     image = sqlalchemy.Column(sqlalchemy.LargeBinary(),
                               nullable=False)
 
-    token = sqlalchemy.Column(sqlalchemy.LargeBinary(),
-                              nullable=False)
-
     owner = sqlalchemy.Column(sqlalchemy.Integer,
                               sqlalchemy.ForeignKey("users.id"),
                               nullable=False)

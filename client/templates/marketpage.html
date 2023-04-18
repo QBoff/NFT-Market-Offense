@@ -34,7 +34,11 @@
 
                 <div class="list-of-cards p-3">
 
-                    {% for nftentry in entries %}
+                    {% for nft, image in data %}
+                        {{nft.name}}
+                        <img src="data:image/png;base64, {{ image }}" alt="fuck">
+                    {% endfor %}
+            
                     <!--
                         nftentry.name -> Имя NFT
                         nftentry.description -> Описание NFT
@@ -73,7 +77,6 @@
                         </div>
                         {% endfor %}
                     </div> -->
-                    {% endfor %}
                 </div>
 
             </div>

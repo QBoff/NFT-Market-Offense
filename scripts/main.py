@@ -5,18 +5,16 @@ import sys
 sys.path.append(os.getcwd())
 
 import hashlib
-from Crypto.Cipher import AES
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for
-from cardsInfo import cardsInfoList
 import datetime
-from sqlalchemy import or_
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import RegisterForm, LoginForm, NFTCreationForm
 from models import db_session
 from models.users import User
 from models.nfts import NFT
 assert load_dotenv(), "Даня, ты забыл .env добавить"
+from security import decrypt_image, encrypt_image
 
 app = Flask(
     import_name="NFT-Market-Offense",
@@ -26,6 +24,7 @@ app = Flask(
 app.secret_key = os.getenv("WEBSITE_SECRET_KEY_AA01")
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(hours=1)
 enc_key = hashlib.sha256(app.secret_key.encode()).digest()
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -47,7 +46,9 @@ def home():
 def market():
     db = db_session.create_session()
     entries = db.query(NFT).all()
-    return render_template("marketpage.html", nfts=entries)
+    images = [decrypt_image(entry.image) for entry in entries]
+
+    return render_template("marketpage.html", data=zip(entries, images))
 
 
 @app.route("/create", methods=["GET", "POST"])
@@ -56,15 +57,13 @@ def nft_creation():
     form = NFTCreationForm()
     if form.validate_on_submit():
         file = form.image.data
-        cipher = AES.new(enc_key, AES.MODE_EAX)
-        ciphertext, tag = cipher.encrypt_and_digest(file.read())
+        image = encrypt_image(file.read())
 
         newNFT = NFT(
             name=form.name.data,
             cost=form.cost.data,
             owner=current_user.id,
-            image=ciphertext,
-            token=tag
+            image=image
         )
 
         db = db_session.create_session()
