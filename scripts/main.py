@@ -135,9 +135,17 @@ def logout():
     return redirect("/")
 
 
-@app.route("/profile")
-def profile():
-    return render_template("profile.html")
+@app.route("/profile/<int:id>")
+def profile(uid):
+    db = db_session.create_session()
+    user = db.query(User).filter(User.id == uid).first()
+    if user is None:
+        return "404"
+
+    entries = db.query(NFT).filter(NFT.owner == user.id).all()
+    images = [decrypt_image(entry.image) for entry in entries]
+
+    return render_template("profile.html", profile_user=user, data=zip(entries, images))
 
 
 @app.route('/filter')

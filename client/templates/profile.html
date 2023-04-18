@@ -25,7 +25,15 @@
 
                     </form>
 
-                    {% for nft in userNFTs %}
+                    <!--
+                        profile_user -> пользователь (владелец) профиля
+                        {% for nft, image in data %} -> цикл со всеми NFT и их изображениями
+                            {{nft.name}}
+                            <img src="data:image/png;base64, {{ image }}" alt="fuck">
+                        {% endfor %}
+                    -->
+
+                    <!-- {% for nft in userNFTs %}
                     <div class="row mt-5">
                         {% for info in nft %}
                         <div class="col-md">
@@ -49,7 +57,7 @@
                         </div>
                         {% endfor %}
                     </div>
-                    {% endfor %}
+                    {% endfor %} -->
                 </div>
 
             </div>
