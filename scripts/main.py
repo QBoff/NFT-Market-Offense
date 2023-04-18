@@ -47,7 +47,7 @@ def home():
 @app.route("/market")
 def market():
     db = db_session.create_session()
-    entries = db.query(NFT).all()
+    entries = db.query(NFT).filter(NFT.on_sale == 1).all()
     images = [decrypt_image(entry.image) for entry in entries]
 
     return render_template("marketpage.html", data=zip(entries, images))
@@ -61,12 +61,13 @@ def nft_creation():
         file = form.image.data
         image = encrypt_image(file.read())
 
+        print(form.is_selling.data)
         newNFT = NFT(
             name=form.name.data,
             cost=form.cost.data,
             owner=current_user.id,
             description=form.description.data,
-            on_sale=form.is_selling.data,
+            on_sale=form.is_selling.data == 1,
             image=image
         )
 
