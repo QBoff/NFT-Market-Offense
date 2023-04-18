@@ -25,39 +25,49 @@
 
                     </form>
 
-                    <!--
-                        profile_user -> пользователь (владелец) профиля
-                        {% for nft, image in data %} -> цикл со всеми NFT и их изображениями
-                            {{nft.name}}
-                            <img src="data:image/png;base64, {{ image }}" alt="fuck">
-                        {% endfor %}
-                    -->
 
-                    <!-- {% for nft in userNFTs %}
+            
+                        <!--
+                            nftentry.name -> Имя NFT
+                            nftentry.description -> Описание NFT
+                            nftentry.cost -> Цена NFT
+                            nftentry.image -> Считай что картинка.
+                                              Пока используй что нибудь другое в качестве картинки
+                                              Я сам если что эту штуку поставлю
+                            nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
+                            nftentry.on_sale -> На продаже ли (1 или 0)
+                        -->
+    
+                        <!--
+                            Переменные цикла:
+                            https://wintercms.com/docs/markup/tag-for
+                        -->
+    
                     <div class="row mt-5">
-                        {% for info in nft %}
-                        <div class="col-md">
-                            <div class="card bg-dark text-light">
-                                <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
-                                    height="500px" src="{{ url_for('static', filename=info['path']) }}"
-                                    alt="Какая-то NFT">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">{{ info['cardTitle'] }}</h5>
-                                    <p class="card-text">{{ info['cardText'] }}</p>
-                                    <div
-                                        class="sell-section card-footer d-md-flex justify-content-between align-items-center">
-                                        <div class="cost text-center">
-                                            <p>Цена</p>
-                                            <p class="card-link"> {{info['cardCost']}} ETH </p>
-                                        </div>
-                                        <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                        {% for nft, image in data %}
+                            <div class="col-md mb-3" style="width: 300px; height: 500px">
+                                <div class="card bg-dark text-light">
+                                    <img class="text-center img-fluid rounded float-start mx-auto d-block" 
+                                    width="300" height="340" src="data:image/png;base64, {{ image }}"
+                                        alt="Какая-то NFT">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ nft.name }}</h5>
+                                        <p class="card-text">{{ nft.description }}</p>
+
+                                        {% if nft.on_sale %}
+                                            <div class="sell-section card-footer d-md-flex justify-content-between align-items-center">
+                                                <div class="cost text-center">
+                                                    <p>Цена</p>
+                                                    <p class="card-link"> {{nft.cost}} ETH </p>
+                                                </div>
+                                                <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
-                    {% endfor %} -->
                 </div>
 
             </div>
