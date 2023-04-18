@@ -3,11 +3,7 @@ import sqlalchemy
 from models.db_session import SqlAlchemyBase
 
 
-NFT_DEFAULT_DESCRIPTION = """
-    Коллекция NFT c чем-то внутри.
-    Это очень интересно покупать кота в мешке
-    и думать о чем-то приятном!!!
-"""
+NFT_DEFAULT_DESCRIPTION = "Коллекция NFT c чем-то внутри. Это очень интересно покупать кота в мешке и думать о чем-то приятном!!!"
 
 
 class NFT(SqlAlchemyBase):
