@@ -156,6 +156,7 @@ def profile(id):
     entries = db.query(NFT).filter(NFT.owner == user.id).all()
     images = [decrypt_image(entry.image) for entry in entries]
 
+    print(user)
     return render_template("profile.html", profile_user=user, data=zip(entries, images))
 
 

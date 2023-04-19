@@ -10,26 +10,26 @@
                     <div class="row text-center d-md-flex justify-content-around">
                         <label for="" style="color: black;">Логин</label>
                         <input type="text" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
-                            value="{{Login}}" readonly="readonly" id="login">
+                            value="{{ profile_user.login }}" readonly="readonly" id="login">
                         <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatelogin" value="Изменить">
                     </div>
                     <div class="row text-center mt-3 d-md-flex justify-content-around">
                         <label for="" style="color: black;">Почта</label>
                         <input  type="email" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
-                            value="{{email}}" readonly="readonly" id="email">
+                            value="{{profile_user.email}}" readonly="readonly" id="email">
                         <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updateemail" value="Изменить">
                     </div>
                     <div class="row text-center mt-3 d-md-flex justify-content-around">
                         <label for="" style="color: black;">Пароль</label>
                         <input type="password" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
-                            value="{{password}}" readonly="readonly" id="password">
+                            value="{{profile_user.hashed_password}}" readonly="readonly" id="password">
                         <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatepassword" value="Изменить">
                     </div>
 
                     <div class="row text-center mt-3 d-md-flex justify-content-around">
                         <label for="" style="color: black;">Кошелек</label>
                         <input type="text" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
-                            value="wallet" readonly="readonly" id="wallet">
+                            value="{{profile_user.crypto_wallet}}" readonly="readonly" id="wallet">
                         <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatewallet" value="Изменить">
                     </div>
                     
