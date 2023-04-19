@@ -49,7 +49,7 @@ def market():
     db = db_session.create_session()
     entries = db.query(NFT).filter(NFT.on_sale == 1).all()
     images = [decrypt_image(entry.image) for entry in entries]
-
+    print(images)
     return render_template("marketpage.html", data=zip(entries, images))
 
 
@@ -147,9 +147,9 @@ def logout():
 
 
 @app.route("/profile/<int:id>")
-def profile(uid):
+def profile(id):
     db = db_session.create_session()
-    user = db.query(User).filter(User.id == uid).first()
+    user = db.query(User).filter(User.id == id).first()
     if user is None:
         return abort(404)
 

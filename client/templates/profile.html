@@ -4,14 +4,39 @@
 <div class="bg-dark text-light user-section">
     <div class="container-fluid">
         <div class="row mt-5 align-items-top">
-            <div style="background-color: #00393D; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;"
+            <div style="background-color: #ffffff; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;"
                 class="col-md-3">
-                <div class="row text-center">
-                    <p class="h3">Username</p>
-                </div>
-                <div class="row text-center mt-3">
-                    <p class="h5">Some info about him</p>
-                </div>
+                <form action="" method="post" id="form">
+                    <div class="row text-center d-md-flex justify-content-around">
+                        <label for="" style="color: black;">Логин</label>
+                        <input type="text" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
+                            value="{{Login}}" readonly="readonly" id="login">
+                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatelogin" value="Изменить">
+                    </div>
+                    <div class="row text-center mt-3 d-md-flex justify-content-around">
+                        <label for="" style="color: black;">Почта</label>
+                        <input  type="email" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
+                            value="{{email}}" readonly="readonly" id="email">
+                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updateemail" value="Изменить">
+                    </div>
+                    <div class="row text-center mt-3 d-md-flex justify-content-around">
+                        <label for="" style="color: black;">Пароль</label>
+                        <input type="password" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
+                            value="{{password}}" readonly="readonly" id="password">
+                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatepassword" value="Изменить">
+                    </div>
+
+                    <div class="row text-center mt-3 d-md-flex justify-content-around">
+                        <label for="" style="color: black;">Кошелек</label>
+                        <input type="text" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
+                            value="wallet" readonly="readonly" id="wallet">
+                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatewallet" value="Изменить">
+                    </div>
+                    
+                    <div class="row text-center mt-3 d-md-flex justify-content-around">
+                        <input type="submit" value="Сохранить" class="btn btn-success" style="width: 300px;">
+                    </div>
+                </form>
             </div>
             <div class="col-md-8">
                 <div class="list-of-cards p-3">
@@ -26,8 +51,8 @@
                     </form>
 
 
-            
-                        <!--
+
+                    <!--
                             nftentry.name -> Имя NFT
                             nftentry.description -> Описание NFT
                             nftentry.cost -> Цена NFT
@@ -37,35 +62,35 @@
                             nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
                             nftentry.on_sale -> На продаже ли (1 или 0)
                         -->
-    
-                        <!--
+
+                    <!--
                             Переменные цикла:
                             https://wintercms.com/docs/markup/tag-for
                         -->
-    
+
                     <div class="row mt-5">
                         {% for nft, image in data %}
-                            <div class="col-md mb-3" style="width: 300px; height: 500px">
-                                <div class="card bg-dark text-light">
-                                    <img class="text-center img-fluid rounded float-start mx-auto d-block" 
-                                    width="300" height="340" src="data:image/png;base64, {{ image }}"
-                                        alt="Какая-то NFT">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">{{ nft.name }}</h5>
-                                        <p class="card-text">{{ nft.description }}</p>
+                        <div class="col-md mb-3" style="width: 300px; height: 500px">
+                            <div class="card bg-dark text-light">
+                                <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300"
+                                    height="340" src="data:image/png;base64, {{ image }}" alt="Какая-то NFT">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ nft.name }}</h5>
+                                    <p class="card-text">{{ nft.description }}</p>
 
-                                        {% if nft.on_sale %}
-                                            <div class="sell-section card-footer d-md-flex justify-content-between align-items-center">
-                                                <div class="cost text-center">
-                                                    <p>Цена</p>
-                                                    <p class="card-link"> {{nft.cost}} ETH </p>
-                                                </div>
-                                                <a href="#" class="btn btn-outline-success card-link">Купить</a>
-                                            </div>
-                                        {% endif %}
+                                    {% if nft.on_sale %}
+                                    <div
+                                        class="sell-section card-footer d-md-flex justify-content-between align-items-center">
+                                        <div class="cost text-center">
+                                            <p>Цена</p>
+                                            <p class="card-link"> {{nft.cost}} ETH </p>
+                                        </div>
+                                        <a href="#" class="btn btn-outline-success card-link">Купить</a>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -75,4 +100,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block JSConnecting %}
+<script src="{{ url_for('static', filename='js/changereadonly.js') }}"></script>
 {% endblock %}
