@@ -50,7 +50,7 @@ def market():
     print(search_query)
 
     db = db_session.create_session()
-    entries = db.query(NFT).filter(NFT.on_sale == 1)
+    entries = db.query(NFT).filter(NFT.on_sale == 1, NFT.owner != current_user.id)
     if search_query is not None:
         entries = entries.filter(NFT.name.like(f"%{search_query}%"))
     entries = entries.all()
