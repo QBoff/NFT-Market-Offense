@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="bg-dark p-5 text-light">
+<div class="d-flex flex-column flex-fill bg-dark p-5 text-light">
     <div class="container-fluid">
         <div class="row">
             <div style="background-color: #00393D; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;" class="col-md-2">
@@ -33,7 +33,10 @@
                 </form>
 
                 <div class="list-of-cards p-3">
-
+                    
+                    {% if amount == 0 %}
+                        <p class="h3 text-center text-danger mt-5">Ещё никто ничего не продает</p>
+                    {% endif %}
             
                     <!--
                         nftentry.name -> Имя NFT

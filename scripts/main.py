@@ -54,9 +54,8 @@ def market():
     if search_query is not None:
         entries = entries.filter(NFT.name.like(f"%{search_query}%"))
     entries = entries.all()
-    print(f"FOUND {len(entries)} entries")
     images = [decrypt_image(entry.image) for entry in entries]
-    return render_template("marketpage.html", data=zip(entries, images))
+    return render_template("marketpage.html", data=zip(entries, images), amount=len(entries))
 
 
 @app.route("/create", methods=["GET", "POST"])
