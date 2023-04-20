@@ -7,7 +7,7 @@ sys.path.append(os.getcwd())
 
 import hashlib
 from dotenv import load_dotenv
-from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask import Flask, render_template, redirect, url_for, flash, abort, request
 import datetime
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import RegisterForm, LoginForm, NFTCreationForm
@@ -44,12 +44,18 @@ def home():
     return render_template("homepage.html")
 
 
-@app.route("/market")
+@app.route("/market", methods=["GET", "POST"])
 def market():
+    search_query = request.form.get("search_query", None)
+    print(search_query)
+
     db = db_session.create_session()
-    entries = db.query(NFT).filter(NFT.on_sale == 1).all()
+    entries = db.query(NFT).filter(NFT.on_sale == 1)
+    if search_query is not None:
+        entries = entries.filter(NFT.name.like(f"%{search_query}%"))
+    entries = entries.all()
+    print(f"FOUND {len(entries)} entries")
     images = [decrypt_image(entry.image) for entry in entries]
-    print(images)
     return render_template("marketpage.html", data=zip(entries, images))
 
 
@@ -60,6 +66,12 @@ def nft_creation():
     if form.validate_on_submit():
         file = form.image.data
         image = encrypt_image(file.read())
+        db = db_session.create_session()
+        existingNFT = db.query(NFT).filter(NFT.name == form.name.data).filter()
+        if existingNFT is not None:
+            return render_template("createnftpage.html",
+                                   error="NFT с таким именем уже существует",
+                                   form=form, hint="Здесь будет отображаться ваша NFT")
 
         newNFT = NFT(
             name=form.name.data,
@@ -70,7 +82,6 @@ def nft_creation():
             image=image
         )
 
-        db = db_session.create_session()
         db.add(newNFT)
         db.commit()
 
@@ -82,10 +93,24 @@ def nft_creation():
                            form=form, hint="Здесь будет отображаться ваша NFT")
 
 
-@app.route("/buy/<int:nft_id>")
+@app.route("/buy/<int:nft_id>", methods=["GET", "POST"])
 @login_required
 def nft_buy(nft_id):
-    return f"page for {nft_id}"
+    form = NFTCreationForm()
+    if form.is_submitted():
+        # TODO логика смарт контрактов Дани
+        return "OK"
+
+    db = db_session.create_session()
+    nft = db.query(NFT).filter(NFT.id == nft_id).first()
+
+    form.submit.label.text = "Купить"
+    form.name.data = nft.name
+    form.cost.data = nft.cost
+    form.description.data = nft.description
+
+    image = decrypt_image(nft.image)
+    return render_template("nft_sell.html", form=form, nft=image, owner_id=nft.owner)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -96,11 +121,12 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect("/")
+            return redirect(request.args.get("redirect") or "/")
 
         return render_template("login.html", form=form, error="Неправильный логин или пароль")
 
-    return render_template("login.html", form=form)
+    error = get_recent_error(form)
+    return render_template("login.html", form=form, error=error)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -146,18 +172,20 @@ def logout():
     return redirect("/")
 
 
-@app.route("/profile/<int:id>")
-def profile(id):
+@app.route("/profile/<int:uid>")
+def profile(uid):
     db = db_session.create_session()
-    user = db.query(User).filter(User.id == id).first()
+    user = db.query(User).filter(User.id == uid).first()
     if user is None:
         return abort(404)
 
-    entries = db.query(NFT).filter(NFT.owner == user.id).all()
-    images = [decrypt_image(entry.image) for entry in entries]
+    entries = db.query(NFT).filter(NFT.owner == user.id)
+    if current_user.id != uid:
+        entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
+    entries = entries.all()
 
-    print(user)
-    return render_template("profile.html", profile_user=user, data=zip(entries, images))
+    images = [decrypt_image(entry.image) for entry in entries]
+    return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) >0)
 
 
 @app.route("/nft/edit/<int:nft_id>", methods=["GET", "POST"])
@@ -175,14 +203,21 @@ def nft_edit(nft_id):
         form.image.data = b"d"
 
     if form.validate_on_submit():
+        existing = db.query(NFT).filter(NFT.name == form.name.data).first()
+        if existing is not None and nft != existing:
+            return render_template("updatenftpage.html",
+                                   nft=nft, form=form,
+                                   image=decrypt_image(nft.image),
+                                   hint="Изображение NFT",
+                                   error="NFT с таким именем уже существует")
         nft.name = form.name.data
         nft.cost = form.cost.data
         nft.description = form.description.data
         nft.on_sale = form.is_selling.data
         db.commit()
 
-        flash("Успешно изменено!")
-        return redirect(url_for("nft_edit", nft_id=nft_id))
+        flash("NFT успешно изменено!")
+        return redirect(url_for("profile", uid=nft.owner))
 
     form.name.data = nft.name
     form.cost.data = nft.cost
@@ -211,8 +246,4 @@ def showFilter():
 
 if __name__ == "__main__":
     db_session.global_init(os.path.join("db", "db.db"))
-    # session = db_session.create_session()
-    # user = session.query(User).first()
-    # if user:
-    #     print(user.nfts)
     app.run(host="127.0.0.1", port=5000, debug=True)

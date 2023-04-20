@@ -26,8 +26,8 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <form class="d-md-flex justify-content-evenly" role="search">
-                    <input style="width: 600px;" class="form-control" type="search" placeholder="Поиск"
+                <form action="" method="POST" class="d-md-flex justify-content-evenly" role="search">
+                    <input style="width: 600px;" class="form-control" type="search" placeholder="Поиск" name="search_query"
                         aria-label="Поиск">
                     <button style="width: 200px;" class="btn btn-outline-success" type="submit">Искать</button>
                 </form>
@@ -53,11 +53,13 @@
 
                     <div class="row mt-5">
                         {% for nft, image in data %}
-                            <div class="col-md mb-3" style="width: 300px">
+                            <div class="col-6 mb-3" style="width: 300px">
                                 <div class="card bg-dark text-light">
+                                    <a href="{{ url_for("profile", uid=nft.owner) }}">
                                     <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300px"
                                         height="300px" src="data:image/png;base64, {{ image }}"
                                         alt="Какая-то NFT">
+                                    </a>
                                     <div class="card-body text-center">
                                         <h5 class="card-title">{{ nft.name }}</h5>
                                         <p class="card-text">{{ nft.description }}</p>

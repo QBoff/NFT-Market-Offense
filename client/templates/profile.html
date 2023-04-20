@@ -1,105 +1,163 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="bg-dark text-light user-section">
-    <div class="container-fluid">
-        <div class="row mt-5 align-items-top">
-            <div style="background-color: #ffffff; border-radius: 15px; height: max-content; padding-top: 5px; padding-bottom: 10px;"
-                class="col-md-3">
-                <form action="" method="post" id="form">
-                    <div class="row text-center d-md-flex justify-content-around">
-                        <label for="" style="color: black;">Логин</label>
-                        <input type="text" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
-                            value="{{ profile_user.login }}" readonly="readonly" id="login">
-                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatelogin" value="Изменить">
+<div class="d-flex flex-column bg-dark flex-fill">
+    <div class="text-center">
+        <p class="h2 text-success my-3">
+            {% if current_user.id == profile_user.id %}
+                Ваш профиль пользователя
+            {% else %}
+                Профиль пользователя {{ profile_user.login }}
+            {% endif %}
+        </p>
+        {% if current_user.id != profile_user.id %}
+            <p class="h3 text-danger">Карточки на продаже:</p>
+        {% endif %}
+    </div>
+    <div class="text-light user-section">
+        <div class="container-fluid">
+            <div class="row mt-5 align-items-top">
+                {% set column_width = 12 %}
+                {% if profile_user.id == current_user.id %}
+                    {% set column_width = 8 %}
+                    <div class="col-md-3 pt-2">
+                        <p class="h3 text-center text-info">Настройки профиля:</p>
+                        <form id="form" class="bg-light p-2 rounded-3 mt-1 py-3">
+                            <div class="row text-center d-md-flex justify-content-around">
+                                <label for="" style="color: black;">Логин</label>
+                                <input type="text" style="width: 80%" style="color: black; border: none;"
+                                    value="{{ profile_user.login }}" id="login">
+                                <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatelogin" value="Изменить"> -->
+                            </div>
+                            <div class="row text-center mt-2 d-md-flex justify-content-around">
+                                <label for="" style="color: black;">Почта</label>
+                                <input  type="email" style="width: 80%" style="color: black; border: none;"
+                                    value="{{profile_user.email}}" id="email">
+                                <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updateemail" value="Изменить"> -->
+                            </div>
+                            <div class="row text-center mt-2 d-md-flex justify-content-around">
+                                <label for="" style="color: black;">Новый пароль</label>
+                                <input type="password" style="width: 80%" style="color: black; border: none;"
+                                    id="password">
+                                <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatepassword" value="Изменить"> -->
+                            </div>
+
+                            <div class="row text-center mt-2 d-md-flex justify-content-around">
+                                <label for="" style="color: black;">Кошелек</label>
+                                <input type="text" style="width: 80%" style="color: black; border: none;"
+                                    value="{{profile_user.crypto_wallet}}" id="wallet">
+                                <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatewallet" value="Изменить"> -->
+                            </div>
+                            
+                            <div class="row text-center mt-2 d-md-flex justify-content-around">
+                                <input type="submit" value="Сохранить" class="btn btn-success" style="width: 80%">
+                            </div>
+                        </form>
                     </div>
-                    <div class="row text-center mt-3 d-md-flex justify-content-around">
-                        <label for="" style="color: black;">Почта</label>
-                        <input  type="email" style="width: min-content; margin-left: 10px;" style="color: black; border: none;"
-                            value="{{profile_user.email}}" readonly="readonly" id="email">
-                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updateemail" value="Изменить">
-                    </div>
-                    <div class="row text-center mt-3 d-md-flex justify-content-around">
-                        <label for="" style="color: black;">Пароль</label>
-                        <input type="password" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
-                            value="{{profile_user.hashed_password}}" readonly="readonly" id="password">
-                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatepassword" value="Изменить">
-                    </div>
+                {% endif %}
 
-                    <div class="row text-center mt-3 d-md-flex justify-content-around">
-                        <label for="" style="color: black;">Кошелек</label>
-                        <input type="text" style="width: min-content;  margin-left: 10px;" style="color: black; border: none;"
-                            value="{{profile_user.crypto_wallet}}" readonly="readonly" id="wallet">
-                        <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatewallet" value="Изменить">
-                    </div>
-                    
-                    <div class="row text-center mt-3 d-md-flex justify-content-around">
-                        <input type="submit" value="Сохранить" class="btn btn-success" style="width: 300px;">
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-8">
-                <div class="list-of-cards p-3">
+                <div class="col-md">
+                    <div class="list-of-cards p-3">
 
-                    <form class="d-md-flex justify-content-evenly align-items-center" method="post">
+                        {% set cards_margin = 0 %}
+                        {% if None %}
+                            {% set cards_margin = 5 %}
+                            <form class="d-md-flex justify-content-evenly align-items-center" method="post">
 
-                        <input type="radio" checked class="btn-check" name="options" id="ForSale" autocomplete="on">
-                        <label class="btn btn-light" for="ForSale">Для продажи</label>
-                        <input type="radio" class="btn-check" name="options" id="ForSelf" autocomplete="off">
-                        <label class="btn btn-light" for="ForSelf">Для себя</label>
+                                <input type="radio" checked class="btn-check" name="options" id="ForSale" autocomplete="on">
+                                <label class="btn btn-light" for="ForSale">Для продажи</label>
+                                <input type="radio" class="btn-check" name="options" id="ForSelf" autocomplete="off">
+                                <label class="btn btn-light" for="ForSelf">Для себя</label>
 
-                    </form>
+                            </form>
+                        {% endif %}
 
 
 
-                    <!--
-                            nftentry.name -> Имя NFT
-                            nftentry.description -> Описание NFT
-                            nftentry.cost -> Цена NFT
-                            nftentry.image -> Считай что картинка.
-                                              Пока используй что нибудь другое в качестве картинки
-                                              Я сам если что эту штуку поставлю
-                            nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
-                            nftentry.on_sale -> На продаже ли (1 или 0)
-                        -->
+                        <!--
+                                nftentry.name -> Имя NFT
+                                nftentry.description -> Описание NFT
+                                nftentry.cost -> Цена NFT
+                                nftentry.image -> Считай что картинка.
+                                                Пока используй что нибудь другое в качестве картинки
+                                                Я сам если что эту штуку поставлю
+                                nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
+                                nftentry.on_sale -> На продаже ли (1 или 0)
+                            -->
 
-                    <!--
-                            Переменные цикла:
-                            https://wintercms.com/docs/markup/tag-for
-                        -->
+                        <!--
+                                Переменные цикла:
+                                https://wintercms.com/docs/markup/tag-for
+                            -->
+                        
+                        {% if current_user.id == profile_user.id %}
+                            <p class="text-center text-info h3">Ваши карточки:</p>
+                        {% endif %}
+                        {% if has_data %}
+                        <div class="row mt-{{ cards_margin }} px-5">
+                            {% for nft, image in data %}
+                            <div class="col-md-3 mb-3" style="width: 300px; height: 500px">
+                                <div class="card bg-dark text-light">
 
-                    <div class="row mt-5">
-                        {% for nft, image in data %}
-                        <div class="col-md mb-3" style="width: 300px; height: 500px">
-                            <div class="card bg-dark text-light">
-                                <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300"
-                                    height="340" src="data:image/png;base64, {{ image }}" alt="Какая-то NFT">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">{{ nft.name }}</h5>
-                                    <p class="card-text">{{ nft.description }}</p>
-
-                                    {% if nft.on_sale %}
-                                    <div
-                                        class="sell-section card-footer d-md-flex justify-content-between align-items-center">
-                                        <div class="cost text-center">
-                                            <p>Цена</p>
-                                            <p class="card-link"> {{nft.cost}} ETH </p>
-                                        </div>
-                                        <a href="#" class="btn btn-outline-success card-link">Купить</a>
-                                    </div>
+                                    {% if current_user.is_authenticated %}
+                                        {% if current_user.id == nft.owner %}
+                                            {% set redirect_url = url_for("nft_edit", nft_id=nft.id)%}
+                                        {% else %}
+                                            {% set redirect_url = url_for("nft_buy", nft_id=nft.id) %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% set redirect_url = url_for("login", redirect=url_for("nft_edit", nft_id=nft.id)) %}
                                     {% endif %}
+
+                                    <a href="{{ redirect_url }}" class="text-decoration-none">
+                                        <img class="text-center img-fluid rounded float-start mx-auto d-block" width="300"
+                                        height="340" src="data:image/png;base64, {{ image }}" alt="Какая-то NFT">
+                                    <div class="card-body text-center text-white">
+                                        <h5 class="card-title">{{ nft.name }}</h5>
+                                        <p class="card-text">{{ nft.description }}</p>
+                                        
+                                        <!-- {% if current_user.is_authenticated %}
+                                            {% if nft.on_sale and current_user.id != profile_user.id %}
+                                            <div
+                                                class="sell-section card-footer d-md-flex justify-content-between align-items-center">
+                                                <div class="cost text-center">
+                                                    <p>Цена</p>
+                                                    <p class="card-link"> {{nft.cost}} ETH </p>
+                                                </div>
+                                                <a href="#" class="btn btn-outline-success card-link">Купить</a>
+                                            </div>
+                                            {% endif %}
+                                        {% endif %} -->
+                                    </div>
+                                    </a>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
+                        {% else %}
+                            <div class="d-flex justify-content-center">
+                                <p class="h3 text-center text-info mx-2 mt-2">Карточек нету</p>
+                                {% if current_user.id == profile_user.id %}
+                                    <a href="{{ url_for("nft_creation") }}" class="btn btn-success align-self-end">Создать</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
+    {% if current_user.id == profile_user.id %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info text-center mt-auto">
+                    <h4>{{messages[0]}}</h1>
+                </div>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
 </div>
-
 {% endblock %}
 
 {% block JSConnecting %}

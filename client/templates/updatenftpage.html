@@ -53,10 +53,6 @@
                             <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
                         {% endif %}
 
-                        {% with msg = get_flashed_messages() %}
-                            <p class="text-success mt-2 h3" style="width: 300px">{{ msg[0] }}</p>
-                        {% endwith %}
-
                         {{ form.submit(class="btn btn-success mt-4", type="submit") }}
                         <!-- <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button> -->
                     </div>
