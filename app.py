@@ -137,7 +137,7 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-
+        print("POINT1")
         db_sess = db_session.create_session()
         entry = db_sess.query(User).filter(
             or_(
@@ -147,6 +147,7 @@ def register():
         ).first()
 
         if entry:
+            print("POINT2")
             error = "Такой логин уже есть"
             if entry.email == form.email.data:
                 error = "Такая почта уже зарегистрирована"
@@ -155,6 +156,7 @@ def register():
                                    error=error,
                                    form=form)
 
+        print("POINT3")
         user = User(
             login=form.login.data,
             email=form.email.data,
@@ -166,7 +168,8 @@ def register():
         login_user(user)
         return redirect("/")
 
-    return render_template("register.html", form=form)
+    error = get_recent_error(form)
+    return render_template("register.html", form=form, error=error)
 
 
 @app.route('/logout')

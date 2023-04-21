@@ -5,6 +5,6 @@ window.addEventListener('load', function() {
     if (collectionOfInputBox.length === 2) {
         loginBox.style.height = "450px";
     } else {
-        loginBox.style.height = "610px";
+        loginBox.style.height = "700px";
     }
 });
