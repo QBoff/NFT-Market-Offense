@@ -81,14 +81,14 @@ class LoginForm(FlaskForm):
 
 
 class NFTCreationForm(FlaskForm):
-    name = StringField("Имя NFT", validators=[
+    name = StringField("Имя", validators=[
         InputRequired(NFT_NAME_MISSING),
         Length(
             max=MAX_NFT_NAME_LENGTH,
             message=NFT_LEN_ERROR)
     ])
 
-    cost = FloatField("Цена NFT", validators=[
+    cost = FloatField("Цена", validators=[
         InputRequired(NFT_COST_MISSING),
         NumberRange(
             min=0,
@@ -102,7 +102,7 @@ class NFTCreationForm(FlaskForm):
     ])
 
     is_selling = BooleanField("Выставить на продажу")
-    image = FileField("NFT", validators=[DataRequired(NFT_FILE_MISSING)])
+    image = FileField("Изображение NFT", validators=[DataRequired(NFT_FILE_MISSING)])
     submit = SubmitField("Выставить на продажу")
 
 

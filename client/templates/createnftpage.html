@@ -4,7 +4,14 @@
 
 <section class="bg-dark text-light p-5 h-100">
     <div class="container text-center">
-        <p class="h3">Создать NFT</p>
+        <div class="row">
+            <div class="col-md-6">
+              <p class="h3 float-end">Создать NFT</p>
+            </div>
+            <div class="col-md-6">
+              <a href="{{ url_for("profile", uid=current_user.id) }}" class="btn btn-secondary float-start">Вернутся</a>
+            </div>
+          </div>
 
         <div class="justify-content-center d-md-flex mt-5">
             <div class="col-md-3" style="display: grid; place-items: center;">
@@ -48,7 +55,7 @@
                         </div>
 
                         <div style="width: 300px; text-align: left;" class="mt-3">
-                            <input class="form-check-input move-left" type="checkbox" value="" id="flexCheckChecked" checked>
+                            {{ form.is_selling(class="form-check-input move-left", id="flexCheckChecked") }}
                             <label class="form-check-label" for="flexCheckChecked">
                                 Выставить на продажу
                             </label>

@@ -76,7 +76,7 @@ main {
     top: -50%;
     left: -50%;
     width: 400px;
-    height: 420px;
+    height: 620px;
     background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
     z-index: 1;
     transform-origin: bottom right;
@@ -90,7 +90,7 @@ main {
     top: -50%;
     left: -50%;
     width: 400px;
-    height: 420px;
+    height: 620px;
     background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
     z-index: 1;
     transform-origin: bottom right;

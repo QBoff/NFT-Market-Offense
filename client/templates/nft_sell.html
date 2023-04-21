@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="bg-dark text-light p-5 h-100">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-6">
+              <p class="h3 float-end">Покупка NFT</p>
+            </div>
+            <div class="col-md-6">
+              <a href="{{ url_for("profile", uid=owner_id) }}" class="btn btn-secondary float-start">Вернутся</a>
+            </div>
+          </div>
+
+        <div class="justify-content-center d-md-flex mt-5">
+            <div class="col-md-3" style="display: grid; place-items: center;">
+                <p class="hint">NFT, которое вы получите после покупки</p>
+                <div class="preview-wrapper">
+                    <img id="preview" src="data:image/png;base64, {{ nft }}" width="100%" height="100%">
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <form action="" , method="POST" , enctype="multipart/form-data" id="profile-form">
+                    {{ form.hidden_tag() }}
+                    <div style="display: grid; place-items: center;">
+
+                        <!-- <label for="exampleFormControlInput1" class="form-label">Название вашей NFT</label> -->
+                        {{ form.name.label(for="exampleFormControlInput1") }}
+                        <div class="input-group" style="width: 300px;">
+                            {{ form.name(class="form-control mb-3", id="exampleFormControlInput1", style="width: 300px", readonly="True") }}
+                            <!--<input style="width: 300px" type="text" class="form-control mb-3"
+                                id="exampleFormControlInput1" placeholder="Wojak">-->
+                        </div>
+
+                        <!-- <label for="exampleFormControlInput2">Цена вашей NFT</label> -->
+                        {{ form.cost.label(for="exampleFormControlInput2") }}
+                        <div class="input-group mt-2 mb-3" style="width: 300px;">
+                            {{ form.cost(class="form-control", id="exampleFormControlInput2", readonly="True") }}
+                            <!--<input id="exampleFormControlInput2" type="text" class="form-control" placeholder="0.001"
+                                aria-label="Ethereum amount (with dot and four decimal places)"> -->
+                            <span class="input-group-text">ETH</span>
+                        </div>
+
+                        <div class="mb-3" style="width: 300px;">
+                            <!--<label for="exampleFormControlTextarea1" class="form-label">Описание NFT</label>-->
+                            {{ form.description.label(for="exampleFormControlTextarea1", class="form-label")}}
+                            {{ form.description(class="form-control", id="exampleFormControlTextarea1", rows="3", readonly="True") }}
+                            <!-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> -->
+                        </div>
+
+                        {% if error %}
+                        <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
+                        {% endif %}
+
+                        {{ form.submit(class="btn btn-success mt-4" id="    ") }}
+                        <!-- <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button> -->
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
