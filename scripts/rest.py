@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask_restful import reqparse, abort, Resource
 from functools import wraps
-from security import encrypt_image
+from scripts.security import encrypt_image
 from models import db_session
 from models.nfts import NFT
 from models.users import User

@@ -6,14 +6,14 @@ from dotenv import load_dotenv
 assert load_dotenv(), "Даня, ты забыл .env добавить"
 sys.path.append(os.getcwd())
 
-import rest
-from security import decrypt_image, encrypt_image, get_recent_error
+from scripts import rest
+from scripts.security import decrypt_image, encrypt_image, get_recent_error
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 from flask_restful import Api
-from forms import LoginForm, NFTCreationForm, RegisterForm
+from scripts.forms import LoginForm, NFTCreationForm, RegisterForm
 from sqlalchemy import or_
 
 from models import db_session

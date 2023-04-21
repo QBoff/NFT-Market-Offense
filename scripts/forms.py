@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from validators import (EmailExistsValidator, LoginExistsValidator,
+from scripts.validators import (EmailExistsValidator, LoginExistsValidator,
                         LoginTemplateValidator, PasswordTemplateValidator,
                         UnicodeValidator)
 from wtforms import (EmailField, FileField, FloatField, PasswordField,
