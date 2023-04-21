@@ -36,3 +36,7 @@ class NFT(SqlAlchemyBase):
     on_sale = sqlalchemy.Column(sqlalchemy.Boolean,
                                 default=False,
                                 nullable=False)
+
+    times_selled = sqlalchemy.Column(sqlalchemy.Integer,
+                                     default=0,
+                                     nullable=False)
