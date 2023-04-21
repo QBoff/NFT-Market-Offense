@@ -90,6 +90,7 @@ document.getElementById("update-btn").addEventListener('click', function (e) {
             input.setAttribute('type', 'hidden');
             input.setAttribute('value', oldPassword);
             input.setAttribute('id', 'oldPassword');
+            input.setAttribute('name', 'oldPassword')
             form.appendChild(input);
 
             console.log(document.getElementById('email').value, document.getElementById('password').value, document.getElementById('oldPassword'));

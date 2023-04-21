@@ -10,6 +10,9 @@
                 Профиль пользователя {{ profile_user.login }}
             {% endif %}
         </p>
+        {% if current_user.id == profile_user.id %}
+            <p class="h6 text-success my-3">API KEY: {{ current_user.api_key }}</p>
+        {% endif %}
         {% if current_user.id != profile_user.id %}
             <p class="h3 text-danger">Карточки на продаже:</p>
         {% endif %}
@@ -27,26 +30,26 @@
                             <div class="row text-center d-md-flex justify-content-around">
                                 <label for="" style="color: black;">Логин</label>
                                 <input type="text" style="width: 80%" style="color: black; border: none;"
-                                    value="{{ profile_user.login }}" id="login">
+                                    value="{{ profile_user.login }}" id="login", name="login">
                                 <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatelogin" value="Изменить"> -->
                             </div>
                             <div class="row text-center mt-2 d-md-flex justify-content-around">
                                 <label for="" style="color: black;">Почта</label>
                                 <input  type="email" style="width: 80%" style="color: black; border: none;"
-                                    value="{{profile_user.email}}" id="email">
+                                    value="{{profile_user.email}}" id="email", name="email">
                                 <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updateemail" value="Изменить"> -->
                             </div>
                             <div class="row text-center mt-2 d-md-flex justify-content-around">
                                 <label for="" style="color: black;">Новый пароль</label>
                                 <input type="password" style="width: 80%" style="color: black; border: none;"
-                                    id="password">
+                                    id="password" name="password">
                                 <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatepassword" value="Изменить"> -->
                             </div>
 
                             <div class="row text-center mt-2 d-md-flex justify-content-around">
                                 <label for="" style="color: black;">Кошелек</label>
                                 <input type="text" style="width: 80%" style="color: black; border: none;"
-                                    value="{{profile_user.crypto_wallet}}" id="wallet">
+                                    value="{{profile_user.crypto_wallet}}" id="wallet" name="wallet">
                                 <!-- <input type="button" style="width: min-content;" class="m-1 btn btn-success" id="updatewallet" value="Изменить"> -->
                             </div>
                             
@@ -72,24 +75,6 @@
 
                             </form>
                         {% endif %}
-
-
-
-                        <!--
-                                nftentry.name -> Имя NFT
-                                nftentry.description -> Описание NFT
-                                nftentry.cost -> Цена NFT
-                                nftentry.image -> Считай что картинка.
-                                                Пока используй что нибудь другое в качестве картинки
-                                                Я сам если что эту штуку поставлю
-                                nftentry.owner -> ID владельца (Если вдруг понадобится. Не желательно бтв)
-                                nftentry.on_sale -> На продаже ли (1 или 0)
-                            -->
-
-                        <!--
-                                Переменные цикла:
-                                https://wintercms.com/docs/markup/tag-for
-                            -->
                         
                         {% if current_user.id == profile_user.id %}
                             <p class="text-center text-info h3">Ваши карточки:</p>

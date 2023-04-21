@@ -1,0 +1,200 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: NFT-Market-Offense API
+  description: Позволяет получать данные о пользователях и NFT. Перед посылкой каждого запроса, нужно получить API ключ из личного кабинета пользователя и добавлять его в `header` каждого запроса с именем `"X-API-KEY"`
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: X-API-KEY
+    in: header
+
+security:
+  - api_key: []
+
+basePath: /api/v2
+
+schemes:
+  - http
+
+paths:
+  /nft/{nft_id}:
+    get:
+      summary: Получить NFT по его ID
+      description: Получает всю доступную информацию об NFT, если оно существует.
+      produces:
+        - application/json
+      parameters:
+        - name: nft_id
+          in: path
+          description: NFT ID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: NFT успешно получен.
+        404:
+          description: NFT с этим ID не был найден на сервере.
+
+    put:
+      summary: Обновить NFT по ID
+      description: Обновить можно только в случае если ты владелец и NFT существует.
+      produces:
+        - application/json
+      parameters:
+        - name: nft_id
+          in: path
+          description: NFT ID
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: Новая информация об NFT
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Имя
+              description:
+                type: string
+                description: Описание
+              cost:
+                type: number
+                format: float
+                description: Цена
+              on_sale:
+                type: integer
+                format: boolean
+                description: Выставить ли NFT сразу на продажу или нет
+      responses:
+        200:
+          description: Информация успешно обновлена
+        400:
+          description: Форма заполнена неверно
+        403:
+          description: Вы не являетесь автором этого NFT
+        404:
+          description: NFT не было найдено
+
+  /nft:
+    post:
+      summary: Создать новое NFT
+      description: Создаёт в профиле авторизованного пользователя новое NFT 
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Данные для создаваемой NFT
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Имя
+              description:
+                type: string
+                description: Описание
+              cost:
+                type: number
+                format: float
+                description: Цена
+              image:
+                type: string
+                format: bytes
+                description: Картинка для шифровки, в Bytes
+              on_sale:
+                type: integer
+                format: boolean
+                description: Выставить ли NFT сразу на продажу или нет
+              
+      responses:
+        200:
+          description: NFT успешно создано
+        400:
+          description: Неправильный формат данных
+
+  /nfts:
+    get:
+      summary: Получить список всех NFT
+      description: Возвращает до `limit` NFT. Если `limit` не передан, возвращаются все NFT
+      parameters:
+        - name: limit
+          in: query
+          description: Ограничить возвращаемое кол-во NFT
+          required: false
+          type: integer
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Успешно выполнено.
+
+  /user/{user_id}:
+    get:
+      summary: Получить данные пользователя по ID
+      produces:
+        - application/json
+      parameters:
+        - name: user_id
+          in: path
+          description: ID пользователя
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Пользователь успешно получен
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: Пользователь не был найден
+
+definitions:
+  NFT:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Имя
+      description:
+        type: string
+        description: Описание
+      cost:
+        type: number
+        format: float
+        description: Цена
+      created_at:
+        type: string
+        format: date-time
+        description: Дата и время создания NFT
+      on_sale:
+        type: boolean
+        format: integer
+        description: Показывает, находится ли на продаже это NFT сейчас или нет
+        
+  User:
+    type: object
+    properties:
+      login:
+        type: string
+        description: Логин пользователя
+      created_date:
+        type: string
+        format: date-time
+        description: Дата и время создания аккаунта
+      crypto_wallet:
+        type: string
+        description: Крипто-кошелёк пользователя
+      id:
+        type: integer
+        description: UserID пользователя
+      nfts:
+        type: array
+        items:
+          $ref: "#/definitions/NFT"
+        description: Список NFT пользователя, которыми он владеет

@@ -1,29 +1,24 @@
-from operator import or_
 import os
 import sys
-
-# магическое заклинание (без него не работает)
-sys.path.append(os.getcwd())
-
 import datetime
 import hashlib
-
 from dotenv import load_dotenv
+assert load_dotenv(), "Даня, ты забыл .env добавить"
+sys.path.append(os.getcwd())
+
+import rest
+from security import decrypt_image, encrypt_image, get_recent_error
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
+from flask_restful import Api
 from forms import LoginForm, NFTCreationForm, RegisterForm
 from sqlalchemy import or_
-from rest import NFTResource, NFTListResource
-from flask_restful import Api
 
 from models import db_session
 from models.nfts import NFT
 from models.users import User
-
-assert load_dotenv(), "Даня, ты забыл .env добавить"
-from security import decrypt_image, encrypt_image, get_recent_error
 
 app = Flask(
     import_name="NFT-Market-Offense",
@@ -58,7 +53,9 @@ def market():
     print(search_query)
 
     db = db_session.create_session()
-    entries = db.query(NFT).filter(NFT.on_sale == 1, NFT.owner != current_user.id)
+    entries = db.query(NFT).filter(NFT.on_sale == 1)
+    if current_user.is_authenticated:
+        entries = entries.filter(NFT.owner != current_user.id)
     if search_query is not None:
         entries = entries.filter(NFT.name.like(f"%{search_query}%"))
     entries = entries.all()
@@ -181,39 +178,26 @@ def logout():
 
 @app.route("/profile/<int:uid>", methods=["GET", "POST"])
 def profile(uid):
-    if request.method == "GET":
-        
-        db = db_session.create_session()
-        user = db.query(User).filter(User.id == uid).first()
-        if user is None:
-            return abort(404)
+    db = db_session.create_session()
+    user = db.query(User).filter(User.id == uid).first()
+    if user is None:
+        return abort(404)
 
-        entries = db.query(NFT).filter(NFT.owner == user.id)
-        if current_user.id != uid:
-            entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
-        entries = entries.all()
+    entries = db.query(NFT).filter(NFT.owner == user.id)
+    if current_user.is_authenticated and current_user.id != uid:
+        entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
+    entries = entries.all()
 
-        images = [decrypt_image(entry.image) for entry in entries]
-        return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0)
+    if request.method == "POST":
+        for key in request.form:
+            print(key)
 
-    elif request.method == "POST":
-        # Я сделал обработку нового пароля и старого пароля + обработка email, валидные данные приходят сюда
-        # Здесь ты сравниваешь старый и новый пароли, если hash совпал то в параметр wasChanged передаешь что `Данные были изменены`
-        # иначе `Старый пароль не соответствует тому, который вы указывали при регистрации`
-        
-        db = db_session.create_session()
-        user = db.query(User).filter(User.id == uid).first()
-        if user is None:
-            return abort(404)
+    images = [decrypt_image(entry.image) for entry in entries]
+    return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0)
 
-        entries = db.query(NFT).filter(NFT.owner == user.id)
-        if current_user.id != uid:
-            entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
-        entries = entries.all()
-
-        images = [decrypt_image(entry.image) for entry in entries]
-        return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0, wasChanged="Данные были изменены")
-        
+    # Я сделал обработку нового пароля и старого пароля + обработка email, валидные данные приходят сюда
+    # Здесь ты сравниваешь старый и новый пароли, если hash совпал то в параметр wasChanged передаешь что `Данные были изменены`
+    # иначе `Старый пароль не соответствует тому, который вы указывали при регистрации`
 
 
 @app.route("/nft/edit/<int:nft_id>", methods=["GET", "POST"])
@@ -256,7 +240,7 @@ def nft_edit(nft_id):
     if nft is None:
         return abort(404)
 
-    if nft.owner != current_user.id and current_user.id != 1:
+    if nft.owner != current_user.id:
         return abort(401)
 
     error = get_recent_error(form)
@@ -274,6 +258,8 @@ def showFilter():
 
 if __name__ == "__main__":
     db_session.global_init(os.path.join("db", "db.db"))
-    api.add_resource(NFTResource, "/api/v2/nft/<int:nft_id>")
-    api.add_resource(NFTListResource, "/api/v2/nfts")
+    api.add_resource(rest.NFTResource, "/api/v2/nft/<int:nft_id>")
+    api.add_resource(rest.NFTResourcePOST, "/api/v2/nft")
+    api.add_resource(rest.NFTListResource, "/api/v2/nfts")
+    api.add_resource(rest.UserResource, "/api/v2/user/<int:user_id>")
     app.run(host="127.0.0.1", port=5000, debug=True)
