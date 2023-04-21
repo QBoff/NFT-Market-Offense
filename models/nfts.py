@@ -1,12 +1,13 @@
 from datetime import datetime
 import sqlalchemy
+from sqlalchemy_serializer import SerializerMixin
 from models.db_session import SqlAlchemyBase
 
 
 NFT_DEFAULT_DESCRIPTION = "Коллекция NFT c чем-то внутри. Это очень интересно покупать кота в мешке и думать о чем-то приятном!!!"
 
 
-class NFT(SqlAlchemyBase):
+class NFT(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'nfts'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -37,6 +38,6 @@ class NFT(SqlAlchemyBase):
                                 default=False,
                                 nullable=False)
 
-    times_selled = sqlalchemy.Column(sqlalchemy.Integer,
-                                     default=0,
-                                     nullable=False)
+    times_sold = sqlalchemy.Column(sqlalchemy.Integer,
+                                   default=0,
+                                   nullable=False)

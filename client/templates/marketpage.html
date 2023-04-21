@@ -35,7 +35,7 @@
                 <div class="list-of-cards p-3">
                     
                     {% if amount == 0 %}
-                        <p class="h3 text-center text-danger mt-5">Ещё никто ничего не продает</p>
+                        <p class="h3 text-center text-danger mt-5">Ничего не найдено</p>
                     {% endif %}
             
                     <!--
@@ -73,7 +73,13 @@
                                                     <p>Цена</p>
                                                     <p class="card-link"> {{nft.cost}} ETH </p>
                                                 </div>
-                                                <a href="{{ url_for("nft_buy", nft_id=nft.id) }}" class="btn btn-outline-success card-link">Купить</a>
+                                                {% if current_user.is_authenticated %}
+                                                    {% set redirect_url = url_for("nft_buy", nft_id=nft.id) %}
+                                                {% else %}
+                                                    {% set redirect_url = url_for("login", redirect=url_for("nft_buy", nft_id=nft.id)) %}
+                                                {% endif %}
+
+                                                <a href="{{ redirect_url }}" class="btn btn-outline-success card-link">Купить</a>
                                             </div>
                                         {% endif %}
                                     </div>

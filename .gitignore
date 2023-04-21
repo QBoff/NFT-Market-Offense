@@ -3,6 +3,7 @@ __pycache__/
 .vscode/
 .flake8
 .env
+.idea
 node_modules/.package-lock.json
 node_modules/.bin/loose-envify
 node_modules/.bin/loose-envify.cmd
