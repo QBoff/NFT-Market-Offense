@@ -1,6 +1,9 @@
 {
-  "dependencies": {
-    "@metamask/onboarding": "^1.0.1",
-    "react-router-dom": "^6.10.0"
+  "name": "NFT-Marketplace",
+  "version": "1.0.0",
+  "description": "Flask application for NFT trading",
+  "main": "server.py",
+  "scripts": {
+    "start": "chmod +x start.sh && ./start.sh"
   }
 }

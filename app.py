@@ -101,12 +101,12 @@ def nft_creation():
 @login_required
 def nft_buy(nft_id):
     form = NFTCreationForm()
-    if form.is_submitted():
-        # TODO логика смарт контрактов Дани
-        return "OK"
-
     db = db_session.create_session()
     nft = db.query(NFT).filter(NFT.id == nft_id).first()
+    if form.is_submitted():
+        nft.owner = current_user.id
+        db.commit()
+        return redirect(url_for("profile", uid=current_user.id))
 
     form.submit.label.text = "Купить"
     form.name.data = nft.name
@@ -188,12 +188,12 @@ def profile(uid):
         entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
     entries = entries.all()
 
+    wasChanged = None
     if request.method == "POST":
-        for key in request.form:
-            print(key)
+        wasChanged = "Данные были изменены"
 
     images = [decrypt_image(entry.image) for entry in entries]
-    return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0)
+    return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0, wasChanged=wasChanged)
 
     # Я сделал обработку нового пароля и старого пароля + обработка email, валидные данные приходят сюда
     # Здесь ты сравниваешь старый и новый пароли, если hash совпал то в параметр wasChanged передаешь что `Данные были изменены`
