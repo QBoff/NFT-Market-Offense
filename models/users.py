@@ -37,7 +37,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     api_key = sqlalchemy.Column(sqlalchemy.String(32),
                                 unique=True,
-                                default=secrets.token_hex(32))
+                                default=secrets.token_hex)
 
     nfts = relationship("NFT", backref="owned_nfts")
 
