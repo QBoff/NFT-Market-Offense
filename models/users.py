@@ -1,5 +1,7 @@
 import datetime
 import sqlalchemy
+import secrets
+from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import relationship
 from models.db_session import SqlAlchemyBase
 from models.transactions import Transaction
@@ -7,7 +9,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(SqlAlchemyBase, UserMixin):
+class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -32,6 +34,10 @@ class User(SqlAlchemyBase, UserMixin):
 
     crypto_wallet = sqlalchemy.Column(sqlalchemy.VARCHAR(75),
                                       nullable=False)
+
+    api_key = sqlalchemy.Column(sqlalchemy.String(32),
+                                unique=True,
+                                default=secrets.token_hex(32))
 
     nfts = relationship("NFT", backref="owned_nfts")
 

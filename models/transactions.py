@@ -1,9 +1,10 @@
 from datetime import datetime
 import sqlalchemy
+from sqlalchemy_serializer import SerializerMixin
 from models.db_session import SqlAlchemyBase
 
 
-class Transaction(SqlAlchemyBase):
+class Transaction(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'transactions'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
