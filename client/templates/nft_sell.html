@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-md-5">
-                <form action="" , method="POST" , enctype="multipart/form-data">
+                <form action="" , method="POST" , enctype="multipart/form-data" id="profile-form">
                     {{ form.hidden_tag() }}
                     <div style="display: grid; place-items: center;">
 
@@ -54,7 +54,7 @@
                         <p class="text-danger mt-2" style="width: 300px">{{ error }}</p>
                         {% endif %}
 
-                        {{ form.submit(class="btn btn-success mt-4") }}
+                        {{ form.submit(class="btn btn-success mt-4" id="    ") }}
                         <!-- <button type="submit" class="btn btn-success" style="margin-top: 100px;">Выставить на продажу</button> -->
                     </div>
                 </form>

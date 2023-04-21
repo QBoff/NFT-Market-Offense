@@ -22,7 +22,8 @@
                     {% set column_width = 8 %}
                     <div class="col-md-3 pt-2">
                         <p class="h3 text-center text-info">Настройки профиля:</p>
-                        <form id="form" class="bg-light p-2 rounded-3 mt-1 py-3">
+                        <p class="h3 text-center text-info">{{ wasChanged }}</p>
+                        <form id="form" class="bg-light p-2 rounded-3 mt-1 py-3" method="post">
                             <div class="row text-center d-md-flex justify-content-around">
                                 <label for="" style="color: black;">Логин</label>
                                 <input type="text" style="width: 80%" style="color: black; border: none;"
@@ -50,7 +51,7 @@
                             </div>
                             
                             <div class="row text-center mt-2 d-md-flex justify-content-around">
-                                <input type="submit" value="Сохранить" class="btn btn-success" style="width: 80%">
+                                <input id="update-btn" type="submit" value="Сохранить" class="btn btn-success" style="width: 80%">
                             </div>
                         </form>
                     </div>
@@ -161,5 +162,5 @@
 {% endblock %}
 
 {% block JSConnecting %}
-<script src="{{ url_for('static', filename='js/changereadonly.js') }}"></script>
+<script src="{{ url_for('static', filename='js/formchecker.js') }}"></script>
 {% endblock %}

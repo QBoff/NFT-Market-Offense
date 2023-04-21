@@ -66,7 +66,7 @@ def nft_creation():
         file = form.image.data
         image = encrypt_image(file.read())
         db = db_session.create_session()
-        existingNFT = db.query(NFT).filter(NFT.name == form.name.data).filter()
+        existingNFT = db.query(NFT).filter(NFT.name == form.name.data).first()
         if existingNFT is not None:
             return render_template("createnftpage.html",
                                    error="NFT с таким именем уже существует",
@@ -171,20 +171,41 @@ def logout():
     return redirect("/")
 
 
-@app.route("/profile/<int:uid>")
+@app.route("/profile/<int:uid>", methods=["GET", "POST"])
 def profile(uid):
-    db = db_session.create_session()
-    user = db.query(User).filter(User.id == uid).first()
-    if user is None:
-        return abort(404)
+    if request.method == "GET":
+        
+        db = db_session.create_session()
+        user = db.query(User).filter(User.id == uid).first()
+        if user is None:
+            return abort(404)
 
-    entries = db.query(NFT).filter(NFT.owner == user.id)
-    if current_user.id != uid:
-        entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
-    entries = entries.all()
+        entries = db.query(NFT).filter(NFT.owner == user.id)
+        if current_user.id != uid:
+            entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
+        entries = entries.all()
 
-    images = [decrypt_image(entry.image) for entry in entries]
-    return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) >0)
+        images = [decrypt_image(entry.image) for entry in entries]
+        return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0)
+
+    elif request.method == "POST":
+        # Я сделал обработку нового пароля и старого пароля + обработка email, валидные данные приходят сюда
+        # Здесь ты сравниваешь старый и новый пароли, если hash совпал то в параметр wasChanged передаешь что `Данные были изменены`
+        # иначе `Старый пароль не соответствует тому, который вы указывали при регистрации`
+        
+        db = db_session.create_session()
+        user = db.query(User).filter(User.id == uid).first()
+        if user is None:
+            return abort(404)
+
+        entries = db.query(NFT).filter(NFT.owner == user.id)
+        if current_user.id != uid:
+            entries = entries.filter(NFT.on_sale == (1 if current_user.id != uid else 0))
+        entries = entries.all()
+
+        images = [decrypt_image(entry.image) for entry in entries]
+        return render_template("profile.html", profile_user=user, data=zip(entries, images), has_data=len(entries) > 0, wasChanged="Данные были изменены")
+        
 
 
 @app.route("/nft/edit/<int:nft_id>", methods=["GET", "POST"])
